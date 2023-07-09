@@ -80,7 +80,18 @@ export class CustomersService extends BaseService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+  async remove(id: number): Promise<ResponseCustom<Customer>> {
+    const customer = (await this.findOne(id)).data as Customer;
+
+    try {
+      await this.customerRepository.remove(customer);
+
+      return {
+        message: 'Customer deleted successfully',
+        data: customer,
+      };
+    } catch (error) {
+      this.handleErrors(error);
+    }
   }
 }
