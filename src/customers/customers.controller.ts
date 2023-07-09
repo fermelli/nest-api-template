@@ -42,4 +42,14 @@ export class CustomersController {
   remove(@Param('id') id: string) {
     return this.customersService.remove(+id);
   }
+
+  @Delete(':id/soft')
+  softRemove(@Param('id') id: string) {
+    return this.customersService.softRemove(+id);
+  }
+
+  @Patch(':id/restore')
+  restore(@Param('id') id: string) {
+    return this.customersService.restore(+id);
+  }
 }
