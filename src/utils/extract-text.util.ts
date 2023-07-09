@@ -9,7 +9,7 @@ export const extractValue = (message: string): string | null => {
   return match[1];
 };
 
-export const extractField = (
+export const extractFieldForInsertQuery = (
   sql: string,
   value: string | null,
 ): string | null => {
@@ -42,4 +42,43 @@ export const extractField = (
   }
 
   return fieldsArray[index];
+};
+
+export const extractFieldForUpdateQuery = (
+  sql: string,
+  value: string | null,
+): string | null => {
+  const regex = /SET\s*`([^`]+)`\s*=\s*'([^']+)'/;
+
+  const match = regex.exec(sql);
+
+  if (!match || match.length <= 2) {
+    return null;
+  }
+
+  const field = match[1];
+  const fieldValue = match[2];
+
+  if (fieldValue !== value) {
+    return null;
+  }
+
+  return field;
+};
+
+export const extractField = (
+  sql: string,
+  value: string | null,
+): string | null => {
+  if (sql.includes('INSERT INTO')) {
+    return extractFieldForInsertQuery(sql, value);
+  }
+
+  if (sql.includes('UPDATE')) {
+    console.log('UPDATE');
+
+    return extractFieldForUpdateQuery(sql, value);
+  }
+
+  return null;
 };

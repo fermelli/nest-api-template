@@ -55,8 +55,29 @@ export class CustomersService extends BaseService {
     };
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
+  async update(
+    id: number,
+    updateCustomerDto: UpdateCustomerDto,
+  ): Promise<ResponseCustom<Customer>> {
+    const customer = await this.customerRepository.preload({
+      id,
+      ...updateCustomerDto,
+    });
+
+    if (!customer) {
+      throw new NotFoundException('Customer not found');
+    }
+
+    try {
+      await this.customerRepository.save(customer);
+
+      return {
+        message: 'Customer updated successfully',
+        data: customer,
+      };
+    } catch (error) {
+      this.handleErrors(error);
+    }
   }
 
   remove(id: number) {
