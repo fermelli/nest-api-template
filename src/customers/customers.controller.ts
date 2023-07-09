@@ -10,6 +10,7 @@ import {
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { FindOneParams } from 'src/dtos/find-one-params.dto';
 
 @Controller('customers')
 export class CustomersController {
@@ -26,30 +27,30 @@ export class CustomersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.customersService.findOne(+id);
+  findOne(@Param() { id }: FindOneParams) {
+    return this.customersService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param() { id }: FindOneParams,
     @Body() updateCustomerDto: UpdateCustomerDto,
   ) {
-    return this.customersService.update(+id, updateCustomerDto);
+    return this.customersService.update(id, updateCustomerDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.customersService.remove(+id);
+  remove(@Param() { id }: FindOneParams) {
+    return this.customersService.remove(id);
   }
 
   @Delete(':id/soft')
-  softRemove(@Param('id') id: string) {
-    return this.customersService.softRemove(+id);
+  softRemove(@Param() { id }: FindOneParams) {
+    return this.customersService.softRemove(id);
   }
 
   @Patch(':id/restore')
-  restore(@Param('id') id: string) {
-    return this.customersService.restore(+id);
+  restore(@Param() { id }: FindOneParams) {
+    return this.customersService.restore(id);
   }
 }
