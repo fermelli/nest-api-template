@@ -13,10 +13,10 @@ export class InternalServerErrorExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
-    const message = 'Internal server error';
+    const defaultMessage = 'Internal server error';
 
     response.status(status).json({
-      message,
+      message: exception.message || defaultMessage,
       statusCode: status,
       data: null,
       url: request.url,

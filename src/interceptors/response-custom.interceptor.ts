@@ -22,7 +22,7 @@ export class ResponseCustomInterceptor<T>
 
     return next.handle().pipe(
       map((data) => ({
-        message: data.message,
+        message: data.message || 'Request success',
         statusCode: response.statusCode,
         data: data.data || null,
         url: request.url || null,

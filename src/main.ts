@@ -7,6 +7,7 @@ import { UnprocessableEntityExceptionFilter } from './filters/unprocessable-enti
 import { ResponseCustomInterceptor } from './interceptors/response-custom.interceptor';
 import { InternalServerErrorExceptionFilter } from './filters/internal-server-error-exception.filter';
 import { BadRequestExceptionFilter } from './filters/bad-request-exception.filter';
+import { NotFoundExceptionFilter } from './filters/not-found-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +21,7 @@ async function bootstrap() {
     new UnprocessableEntityExceptionFilter(),
     new InternalServerErrorExceptionFilter(),
     new BadRequestExceptionFilter(),
+    new NotFoundExceptionFilter(),
   );
 
   app.useGlobalInterceptors(new ResponseCustomInterceptor());

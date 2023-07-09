@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { ResponseCustom } from 'src/interfaces/response-custom.interface';
@@ -33,12 +33,26 @@ export class CustomersService extends BaseService {
     }
   }
 
-  findAll() {
-    return `This action returns all customers`;
+  async findAll(): Promise<ResponseCustom<Customer>> {
+    const customers = await this.customerRepository.find();
+
+    return {
+      message: 'Customers retrieved successfully',
+      data: customers,
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  async findOne(id: number): Promise<ResponseCustom<Customer>> {
+    const customer = await this.customerRepository.findOneBy({ id });
+
+    if (!customer) {
+      throw new NotFoundException('Customer not found');
+    }
+
+    return {
+      message: 'Customer retrieved successfully',
+      data: customer,
+    };
   }
 
   update(id: number, updateCustomerDto: UpdateCustomerDto) {
