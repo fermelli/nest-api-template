@@ -5,9 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import validationConfig from './config/validation.config';
 import { UnprocessableEntityExceptionFilter } from './filters/unprocessable-entity-exception.filter';
 import { ResponseCustomInterceptor } from './interceptors/response-custom.interceptor';
-import { InternalServerErrorExceptionFilter } from './filters/internal-server-error-exception.filter';
-import { BadRequestExceptionFilter } from './filters/bad-request-exception.filter';
-import { NotFoundExceptionFilter } from './filters/not-found-exception.filter';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,9 +17,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(
     new UnprocessableEntityExceptionFilter(),
-    new InternalServerErrorExceptionFilter(),
-    new BadRequestExceptionFilter(),
-    new NotFoundExceptionFilter(),
+    new HttpExceptionFilter(),
   );
 
   app.useGlobalInterceptors(new ResponseCustomInterceptor());
