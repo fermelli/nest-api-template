@@ -29,6 +29,10 @@ export class BaseService {
       throw new BadRequestException('Duplicated value');
     }
 
+    if (error.code === 'ECONNREFUSED') {
+      throw new InternalServerErrorException('Database connection error');
+    }
+
     throw new InternalServerErrorException();
   }
 }
