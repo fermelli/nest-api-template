@@ -4,6 +4,6 @@ export interface ResponseCustom<T> {
   message: string;
   statusCode?: number;
   data?: T | T[] | null;
-  url?: string;
+  path?: string;
   errors?: ErrorMessages | null;
 }

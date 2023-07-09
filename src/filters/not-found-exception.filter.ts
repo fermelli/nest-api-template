@@ -19,7 +19,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
       message: exception.message || defaultMessage,
       statusCode: status,
       data: null,
-      url: request.url,
+      path: request.url,
       errors: exception.message,
     });
   }

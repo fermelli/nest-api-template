@@ -29,7 +29,7 @@ export class UnprocessableEntityExceptionFilter implements ExceptionFilter {
       message,
       statusCode: status,
       data: null,
-      url: request.url,
+      path: request.url,
       errors: exception.errorMessages,
     });
   }

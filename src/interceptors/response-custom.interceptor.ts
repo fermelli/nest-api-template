@@ -25,7 +25,7 @@ export class ResponseCustomInterceptor<T>
         message: data.message || 'Request success',
         statusCode: response.statusCode,
         data: data.data || null,
-        url: request.url || null,
+        path: request.url || null,
         errors: data.errors || null,
       })),
     );
