@@ -13,6 +13,7 @@ import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { FindOneParams } from 'src/dtos/find-one-params.dto';
 import { WithDeletedDto } from 'src/dtos/with-deleted.dto';
+import { PaginationAndWithDeletedDto } from 'src/dtos/pagination-and-with-deleted.dto';
 
 @Controller('customers')
 export class CustomersController {
@@ -24,7 +25,7 @@ export class CustomersController {
   }
 
   @Get()
-  findAll(@Query() query: WithDeletedDto) {
+  findAll(@Query() query: PaginationAndWithDeletedDto) {
     return this.customersService.findAll(query);
   }
 

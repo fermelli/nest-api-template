@@ -7,6 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Equal, Repository } from 'typeorm';
 import { BaseService } from 'src/base.service';
 import { WithDeletedDto } from 'src/dtos/with-deleted.dto';
+import { PaginationAndWithDeletedDto } from 'src/dtos/pagination-and-with-deleted.dto';
+import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class CustomersService extends BaseService {
@@ -34,15 +36,24 @@ export class CustomersService extends BaseService {
     }
   }
 
-  async findAll(query: WithDeletedDto): Promise<ResponseCustom<Customer>> {
-    const { withDeleted } = query;
-    const customers = await this.customerRepository.find({
-      withDeleted,
+  async findAll(
+    query: PaginationAndWithDeletedDto,
+  ): Promise<ResponseCustom<Pagination<Customer>>> {
+    const { withDeleted, limit, page } = query;
+    const queryBuilder = this.customerRepository.createQueryBuilder('customer');
+
+    if (withDeleted) {
+      queryBuilder.withDeleted();
+    }
+
+    const paginateData = await paginate<Customer>(queryBuilder, {
+      limit,
+      page,
     });
 
     return {
       message: 'Customers retrieved successfully',
-      data: customers,
+      data: paginateData,
     };
   }
 

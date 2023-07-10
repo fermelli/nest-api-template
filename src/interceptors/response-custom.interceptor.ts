@@ -7,6 +7,8 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ResponseCustom } from 'src/interfaces/response-custom.interface';
+import { Request, Response } from 'express';
+import { getPath } from 'src/utils/get-path.util';
 
 @Injectable()
 export class ResponseCustomInterceptor<T>
@@ -17,17 +19,25 @@ export class ResponseCustomInterceptor<T>
     next: CallHandler,
   ): Observable<ResponseCustom<T>> {
     const ctx = context.switchToHttp();
-    const request = ctx.getRequest();
-    const response = ctx.getResponse();
+    const request = ctx.getRequest<Request>();
+    const response = ctx.getResponse<Response>();
+    const host = request.headers.host;
+    const requestUrl = request.url;
 
     return next.handle().pipe(
-      map((data) => ({
-        message: data.message || 'Request success',
-        statusCode: response.statusCode,
-        data: data.data || null,
-        path: request.url || null,
-        errors: data.errors || null,
-      })),
+      map((res: ResponseCustom<T>) => {
+        const { message, data, errors } = res;
+
+        const path = getPath(host, requestUrl, data);
+
+        return {
+          message: message || 'Request success',
+          statusCode: response.statusCode,
+          data: data || null,
+          path: path || null,
+          errors: errors || null,
+        };
+      }),
     );
   }
 }
