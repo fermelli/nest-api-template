@@ -6,6 +6,7 @@ import { Customer } from './entities/customer.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Equal, Repository } from 'typeorm';
 import { BaseService } from 'src/base.service';
+import { WithDeletedDto } from 'src/dtos/with-deleted.dto';
 
 @Injectable()
 export class CustomersService extends BaseService {
@@ -33,8 +34,11 @@ export class CustomersService extends BaseService {
     }
   }
 
-  async findAll(): Promise<ResponseCustom<Customer>> {
-    const customers = await this.customerRepository.find();
+  async findAll(query: WithDeletedDto): Promise<ResponseCustom<Customer>> {
+    const { withDeleted } = query;
+    const customers = await this.customerRepository.find({
+      withDeleted,
+    });
 
     return {
       message: 'Customers retrieved successfully',
@@ -42,8 +46,15 @@ export class CustomersService extends BaseService {
     };
   }
 
-  async findOne(id: number): Promise<ResponseCustom<Customer>> {
-    const customer = await this.customerRepository.findOneBy({ id });
+  async findOne(
+    id: number,
+    query: WithDeletedDto,
+  ): Promise<ResponseCustom<Customer>> {
+    const { withDeleted } = query;
+    const customer = await this.customerRepository.findOne({
+      where: { id: Equal(id) },
+      withDeleted,
+    });
 
     if (!customer) {
       throw new NotFoundException('Customer not found');
@@ -80,8 +91,11 @@ export class CustomersService extends BaseService {
     }
   }
 
-  async remove(id: number): Promise<ResponseCustom<Customer>> {
-    const customer = (await this.findOne(id)).data as Customer;
+  async remove(
+    id: number,
+    query: WithDeletedDto,
+  ): Promise<ResponseCustom<Customer>> {
+    const customer = (await this.findOne(id, query)).data as Customer;
 
     try {
       await this.customerRepository.remove(customer);
@@ -96,7 +110,8 @@ export class CustomersService extends BaseService {
   }
 
   async softRemove(id: number): Promise<ResponseCustom<Customer>> {
-    const customer = (await this.findOne(id)).data as Customer;
+    const customer = (await this.findOne(id, { withDeleted: false }))
+      .data as Customer;
 
     try {
       await this.customerRepository.softRemove(customer);
@@ -111,10 +126,8 @@ export class CustomersService extends BaseService {
   }
 
   async restore(id: number): Promise<ResponseCustom<Customer>> {
-    const customer = await this.customerRepository.findOne({
-      where: { id: Equal(id) },
-      withDeleted: true,
-    });
+    const customer = (await this.findOne(id, { withDeleted: true }))
+      .data as Customer;
 
     if (!customer) {
       throw new NotFoundException('Customer not found');

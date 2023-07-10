@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { FindOneParams } from 'src/dtos/find-one-params.dto';
+import { WithDeletedDto } from 'src/dtos/with-deleted.dto';
 
 @Controller('customers')
 export class CustomersController {
@@ -22,13 +24,13 @@ export class CustomersController {
   }
 
   @Get()
-  findAll() {
-    return this.customersService.findAll();
+  findAll(@Query() query: WithDeletedDto) {
+    return this.customersService.findAll(query);
   }
 
   @Get(':id')
-  findOne(@Param() { id }: FindOneParams) {
-    return this.customersService.findOne(id);
+  findOne(@Param() { id }: FindOneParams, @Query() query: WithDeletedDto) {
+    return this.customersService.findOne(id, query);
   }
 
   @Patch(':id')
@@ -40,8 +42,8 @@ export class CustomersController {
   }
 
   @Delete(':id')
-  remove(@Param() { id }: FindOneParams) {
-    return this.customersService.remove(id);
+  remove(@Param() { id }: FindOneParams, @Query() query: WithDeletedDto) {
+    return this.customersService.remove(id, query);
   }
 
   @Delete(':id/soft')
