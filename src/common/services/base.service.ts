@@ -3,8 +3,8 @@ import {
   InternalServerErrorException,
   BadRequestException,
 } from '@nestjs/common';
-import { UnprocessableEntityExceptionValidation } from './filters/unprocessable-entity-exception.filter';
-import { extractField, extractValue } from './utils/extract-text.util';
+import { UnprocessableEntityExceptionValidation } from '../../app/filters/unprocessable-entity-exception.filter';
+import { extractField, extractValue } from '../../app/utils/extract-text.util';
 
 export class BaseService {
   private readonly logger = new Logger();

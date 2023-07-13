@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ResponseCustom } from 'src/interfaces/response-custom.interface';
+import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
 import { Request, Response } from 'express';
-import { getPath } from 'src/utils/get-path.util';
+import { getPath } from 'src/app/utils/get-path.util';
 
 @Injectable()
 export class ResponseCustomInterceptor<T>

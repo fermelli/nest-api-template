@@ -5,7 +5,7 @@ import {
   ArgumentsHost,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { ErrorMessages } from 'src/interfaces/error-messages.interface';
+import { ErrorMessages } from 'src/app/interfaces/error-messages.interface';
 
 export class UnprocessableEntityExceptionValidation extends UnprocessableEntityException {
   constructor(public errorMessages: ErrorMessages) {

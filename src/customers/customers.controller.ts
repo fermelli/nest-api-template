@@ -11,9 +11,9 @@ import {
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
-import { FindOneParams } from 'src/dtos/find-one-params.dto';
-import { WithDeletedDto } from 'src/dtos/with-deleted.dto';
-import { PaginationAndWithDeletedDto } from 'src/dtos/pagination-and-with-deleted.dto';
+import { FindOneParams } from 'src/common/dtos/find-one-params.dto';
+import { WithDeletedDto } from 'src/common/dtos/with-deleted.dto';
+import { PaginationAndWithDeletedDto } from 'src/common/dtos/pagination-and-with-deleted.dto';
 
 @Controller('customers')
 export class CustomersController {

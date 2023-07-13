@@ -7,7 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { getDefaultMessage } from 'src/utils/get-default-message.util';
+import { getDefaultMessage } from 'src/app/utils/get-default-message.util';
 
 @Catch(NotFoundException, BadRequestException, InternalServerErrorException)
 export class HttpExceptionFilter implements ExceptionFilter {

@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
-import { ResponseCustom } from 'src/interfaces/response-custom.interface';
+import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
 import { Customer } from './entities/customer.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Equal, Repository } from 'typeorm';
-import { BaseService } from 'src/base.service';
-import { WithDeletedDto } from 'src/dtos/with-deleted.dto';
-import { PaginationAndWithDeletedDto } from 'src/dtos/pagination-and-with-deleted.dto';
+import { BaseService } from 'src/common/services/base.service';
+import { WithDeletedDto } from 'src/common/dtos/with-deleted.dto';
+import { PaginationAndWithDeletedDto } from 'src/common/dtos/pagination-and-with-deleted.dto';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { ValidationError } from 'class-validator';
-import { ErrorMessages } from 'src/interfaces/error-messages.interface';
+import { ErrorMessages } from 'src/app/interfaces/error-messages.interface';
 
 export const processErrors = (
   errors: ValidationError[] | ValidationError,
