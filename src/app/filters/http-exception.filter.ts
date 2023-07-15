@@ -5,17 +5,24 @@ import {
   ExceptionFilter,
   InternalServerErrorException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { getDefaultMessage } from 'src/app/utils/get-default-message.util';
 
-@Catch(NotFoundException, BadRequestException, InternalServerErrorException)
+@Catch(
+  NotFoundException,
+  BadRequestException,
+  InternalServerErrorException,
+  UnauthorizedException,
+)
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(
     exception:
       | NotFoundException
       | BadRequestException
-      | InternalServerErrorException,
+      | InternalServerErrorException
+      | UnauthorizedException,
     host: ArgumentsHost,
   ) {
     const ctx = host.switchToHttp();
