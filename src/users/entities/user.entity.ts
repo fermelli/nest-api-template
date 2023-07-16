@@ -55,10 +55,6 @@ export class User {
   })
   deletedAt?: Date | null;
 
-  constructor(partial: Partial<User>) {
-    Object.assign(this, partial);
-  }
-
   emailToLowerCase() {
     this.email = this.email.toLowerCase();
   }

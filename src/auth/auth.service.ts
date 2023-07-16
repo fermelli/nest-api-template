@@ -3,7 +3,7 @@ import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
 import { BaseService } from 'src/common/services/base.service';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
-import { SignInResponse } from './entities/sign-in-response';
+import { TokenAccessResponse } from './interfaces/acces-token-response.interface';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/sign-up-dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
@@ -18,7 +18,9 @@ export class AuthService extends BaseService {
     super();
   }
 
-  async signUp(signUpDto: SignUpDto): Promise<ResponseCustom<SignInResponse>> {
+  async signUp(
+    signUpDto: SignUpDto,
+  ): Promise<ResponseCustom<TokenAccessResponse>> {
     signUpDto.password = hashSync(signUpDto.password, 10);
 
     const { data } = await this.usersService.create(signUpDto);
@@ -33,7 +35,7 @@ export class AuthService extends BaseService {
   async signIn(
     email: string,
     password: string,
-  ): Promise<ResponseCustom<SignInResponse>> {
+  ): Promise<ResponseCustom<TokenAccessResponse>> {
     const { data } = await this.usersService.findOneByEmail(email);
     const user = data as User;
 
@@ -52,7 +54,9 @@ export class AuthService extends BaseService {
     };
   }
 
-  private async getJwtToken(jwtPayload: JwtPayload): Promise<SignInResponse> {
+  private async getJwtToken(
+    jwtPayload: JwtPayload,
+  ): Promise<TokenAccessResponse> {
     const payload = JSON.parse(JSON.stringify(jwtPayload));
     const accessToken = await this.jwtService.signAsync(payload);
 
