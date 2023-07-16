@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from 'src/app/config/jwt.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { User } from 'src/users/entities/user.entity';
@@ -14,6 +15,7 @@ import { UsersService } from 'src/users/users.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: jwtConfig,
