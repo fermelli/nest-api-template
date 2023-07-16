@@ -26,6 +26,8 @@ export class AuthService extends BaseService {
     const { data } = await this.usersService.create(signUpDto);
     const user = data as User;
 
+    delete user.deletedAt;
+
     return {
       message: 'User created successfully',
       data: await this.getJwtToken(user),

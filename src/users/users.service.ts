@@ -98,6 +98,8 @@ export class UsersService extends BaseService {
         name: true,
         email: true,
         password: true,
+        createdAt: true,
+        updatedAt: true,
         deletedAt: true,
       },
       withDeleted: true,
