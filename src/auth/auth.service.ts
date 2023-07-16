@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
 import { BaseService } from 'src/common/services/base.service';
 import { User } from 'src/users/entities/user.entity';
@@ -10,6 +6,8 @@ import { UsersService } from 'src/users/users.service';
 import { SignInResponse } from './entities/sign-in-response';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/sign-up-dto';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { compareSync, hashSync } from 'bcrypt';
 
 @Injectable()
 export class AuthService extends BaseService {
@@ -21,6 +19,8 @@ export class AuthService extends BaseService {
   }
 
   async signUp(signUpDto: SignUpDto): Promise<ResponseCustom<SignInResponse>> {
+    signUpDto.password = hashSync(signUpDto.password, 10);
+
     const { data } = await this.usersService.create(signUpDto);
     const user = data as User;
 
@@ -37,15 +37,14 @@ export class AuthService extends BaseService {
     const { data } = await this.usersService.findOneByEmail(email);
     const user = data as User;
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    const isPasswordValid = user.comparePassword(password);
+    const isPasswordValid = compareSync(password, user.password);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid credentials');
     }
+
+    delete user.password;
+    delete user.deletedAt;
 
     return {
       message: 'User logged in successfully',
@@ -53,9 +52,8 @@ export class AuthService extends BaseService {
     };
   }
 
-  private async getJwtToken(user: User): Promise<SignInResponse> {
-    const { id, name, email } = user;
-    const payload = { id, name, email };
+  private async getJwtToken(jwtPayload: JwtPayload): Promise<SignInResponse> {
+    const payload = JSON.parse(JSON.stringify(jwtPayload));
     const accessToken = await this.jwtService.signAsync(payload);
 
     return { accessToken };
