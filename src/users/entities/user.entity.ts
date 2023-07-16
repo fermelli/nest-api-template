@@ -1,5 +1,6 @@
 import {
   BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -7,7 +8,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { compareSync, hashSync } from 'bcrypt';
 import { Exclude } from 'class-transformer';
 
 @Entity('users')
@@ -55,16 +55,17 @@ export class User {
   })
   deletedAt?: Date | null;
 
-  constructor(partial: Partial<User>) {
-    Object.assign(this, partial);
-  }
-
-  comparePassword(password: string): boolean {
-    return compareSync(password, this.password);
+  emailToLowerCase() {
+    this.email = this.email.toLowerCase();
   }
 
   @BeforeInsert()
-  cryptPassword() {
-    this.password = hashSync(this.password, 10);
+  beboreInsertActions() {
+    this.emailToLowerCase();
+  }
+
+  @BeforeUpdate()
+  beboreUpdateActions() {
+    this.emailToLowerCase();
   }
 }

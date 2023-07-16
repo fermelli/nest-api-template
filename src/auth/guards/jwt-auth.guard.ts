@@ -10,12 +10,14 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { User } from 'src/users/entities/user.entity';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+import { JwtStrategy } from '../strategies/jwt.strategy';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class JwtAuthGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly jwtStrategy: JwtStrategy,
     private reflector: Reflector,
   ) {}
 
@@ -30,6 +32,15 @@ export class AuthGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
+    const payload = await this.verifyToken(request);
+    const user = await this.jwtStrategy.validate(payload);
+
+    request.user = user as User;
+
+    return true;
+  }
+
+  private async verifyToken(request: any): Promise<any> {
     const accessToken = this.extractTokenFromHeader(request);
     const secret = this.configService.get<string>('JWT_SECRET');
 
@@ -38,16 +49,14 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync<User>(accessToken, {
+      const payload = await this.jwtService.verifyAsync(accessToken, {
         secret,
       });
 
-      request.user = payload;
+      return payload;
     } catch {
-      throw new UnauthorizedException('Invalid access token');
+      throw new UnauthorizedException('Access token is invalid');
     }
-
-    return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
