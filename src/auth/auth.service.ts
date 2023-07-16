@@ -26,7 +26,6 @@ export class AuthService extends BaseService {
     const { data } = await this.usersService.create(signUpDto);
     const user = data as User;
 
-    delete user.password;
     delete user.deletedAt;
 
     return {
