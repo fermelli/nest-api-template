@@ -5,10 +5,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Role } from 'src/roles/entities/role.entity';
+import { Permission } from 'src/permissions/entities/permission.entity';
 
 @Entity('users')
 export class User {
@@ -58,6 +62,28 @@ export class User {
   emailToLowerCase() {
     this.email = this.email.toLowerCase();
   }
+
+  @ManyToMany(() => Role, (role) => role.users, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinTable({
+    name: 'user_role',
+    joinColumn: { name: 'user_id' },
+    inverseJoinColumn: { name: 'role_id' },
+  })
+  roles: Role[];
+
+  @ManyToMany(() => Permission, (permission) => permission.users, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinTable({
+    name: 'user_permission',
+    joinColumn: { name: 'user_id' },
+    inverseJoinColumn: { name: 'permission_id' },
+  })
+  permissions: Permission[];
 
   @BeforeInsert()
   beboreInsertActions() {

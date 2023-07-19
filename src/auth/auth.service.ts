@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/sign-up-dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { compareSync, hashSync } from 'bcrypt';
+import { Me } from './entities/me.entity';
 
 @Injectable()
 export class AuthService extends BaseService {
@@ -24,7 +25,7 @@ export class AuthService extends BaseService {
     signUpDto.password = hashSync(signUpDto.password, 10);
 
     const { data } = await this.usersService.create(signUpDto);
-    const user = data as User;
+    const user = data;
 
     delete user.deletedAt;
 
@@ -39,7 +40,7 @@ export class AuthService extends BaseService {
     password: string,
   ): Promise<ResponseCustom<TokenAccessResponse>> {
     const { data } = await this.usersService.findOneByEmail(email);
-    const user = data as User;
+    const user = data;
 
     const isPasswordValid = compareSync(password, user.password);
 
@@ -63,5 +64,18 @@ export class AuthService extends BaseService {
     const accessToken = await this.jwtService.signAsync(payload);
 
     return { accessToken };
+  }
+
+  async me(user: User): Promise<ResponseCustom<Me>> {
+    const permissions = (await this.usersService.findAllPermissions(user.id))
+      .data;
+
+    return {
+      message: 'User profile fetched successfully',
+      data: {
+        ...user,
+        permissions,
+      },
+    };
   }
 }

@@ -14,6 +14,8 @@ import { PaginationAndWithDeletedDto } from 'src/common/dtos/pagination-and-with
 import { FindOneParams } from 'src/common/dtos/find-one-params.dto';
 import { WithDeletedDto } from 'src/common/dtos/with-deleted.dto';
 import { FindByEmail } from './dto/find-by-email.dto';
+import { UserRolesDto } from './dto/user-roles.dto';
+import { UserPermissionsDto } from './dto/user-permissions.dto';
 
 @Controller('users')
 export class UsersController {
@@ -52,5 +54,26 @@ export class UsersController {
   @Patch(':id/restore')
   restore(@Param() { id }: FindOneParams) {
     return this.usersService.restore(id);
+  }
+
+  @Post(':id/assign-roles')
+  assignRoles(
+    @Param() { id }: FindOneParams,
+    @Body() userRolesDto: UserRolesDto,
+  ) {
+    return this.usersService.assignRoles(id, userRolesDto);
+  }
+
+  @Post(':id/assign-permissions')
+  assignPermissions(
+    @Param() { id }: FindOneParams,
+    @Body() userPermissionsDto: UserPermissionsDto,
+  ) {
+    return this.usersService.assignPermissions(id, userPermissionsDto);
+  }
+
+  @Get(':id/all-permissions')
+  findAllPermissions(@Param() { id }: FindOneParams) {
+    return this.usersService.findAllPermissions(id);
   }
 }

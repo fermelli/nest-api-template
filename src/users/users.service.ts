@@ -6,20 +6,32 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/common/services/base.service';
 import { User } from './entities/user.entity';
-import { Equal, Repository } from 'typeorm';
+import { Equal, In, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
-import { Pagination, paginate } from 'nestjs-typeorm-paginate';
+import { Pagination } from 'nestjs-typeorm-paginate';
 import { PaginationAndWithDeletedDto } from 'src/common/dtos/pagination-and-with-deleted.dto';
 import { WithDeletedDto } from 'src/common/dtos/with-deleted.dto';
 import { ConfigService } from '@nestjs/config';
 import { hashSync } from 'bcrypt';
+import { Role } from 'src/roles/entities/role.entity';
+import { UserRolesDto } from './dto/user-roles.dto';
+import { UserPermissionsDto } from './dto/user-permissions.dto';
+import { Permission } from 'src/permissions/entities/permission.entity';
+import {
+  mergeDataByPropertyAndOrder,
+  responsePaginateData,
+} from 'src/common/utils';
 
 @Injectable()
 export class UsersService extends BaseService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Role)
+    private readonly roleRepository: Repository<Role>,
+    @InjectRepository(Permission)
+    private readonly permissionRepository: Repository<Permission>,
     private readonly configService: ConfigService,
   ) {
     super();
@@ -53,21 +65,24 @@ export class UsersService extends BaseService {
     query: PaginationAndWithDeletedDto,
   ): Promise<ResponseCustom<Pagination<User>>> {
     const { withDeleted, limit, page } = query;
-    const queryBuilder = this.userRepository.createQueryBuilder('user');
+    const response = await responsePaginateData<User>(
+      this.userRepository,
+      {
+        relations: {
+          roles: {
+            permissions: true,
+          },
+        },
+        withDeleted,
+        resourceName: 'Users',
+      },
+      {
+        limit,
+        page,
+      },
+    );
 
-    if (withDeleted) {
-      queryBuilder.withDeleted();
-    }
-
-    const paginateData = await paginate<User>(queryBuilder, {
-      limit,
-      page,
-    });
-
-    return {
-      message: 'Users retrieved successfully',
-      data: paginateData,
-    };
+    return response;
   }
 
   async findOne(
@@ -77,6 +92,12 @@ export class UsersService extends BaseService {
     const { withDeleted } = query;
     const user = await this.userRepository.findOne({
       where: { id: Equal(id) },
+      relations: {
+        roles: {
+          permissions: true,
+        },
+        permissions: true,
+      },
       withDeleted,
     });
 
@@ -123,7 +144,7 @@ export class UsersService extends BaseService {
     id: number,
     query: WithDeletedDto,
   ): Promise<ResponseCustom<User>> {
-    const user = (await this.findOne(id, query)).data as User;
+    const user = (await this.findOne(id, query)).data;
 
     try {
       await this.userRepository.remove(user);
@@ -138,7 +159,7 @@ export class UsersService extends BaseService {
   }
 
   async softRemove(id: number): Promise<ResponseCustom<User>> {
-    const user = (await this.findOne(id, { withDeleted: false })).data as User;
+    const user = (await this.findOne(id, { withDeleted: false })).data;
 
     try {
       await this.userRepository.softRemove(user);
@@ -153,7 +174,7 @@ export class UsersService extends BaseService {
   }
 
   async restore(id: number): Promise<ResponseCustom<User>> {
-    const user = (await this.findOne(id, { withDeleted: true })).data as User;
+    const user = (await this.findOne(id, { withDeleted: true })).data;
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -169,5 +190,112 @@ export class UsersService extends BaseService {
     } catch (error) {
       this.handleErrors(error);
     }
+  }
+
+  async assignRoles(
+    id: number,
+    { rolesIds }: UserRolesDto,
+  ): Promise<ResponseCustom<User>> {
+    const user = (await this.findOne(id, { withDeleted: false })).data;
+    const queryRunner =
+      this.userRepository.manager.connection.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    const roles = await this.roleRepository.find({
+      where: { id: In(rolesIds) },
+    });
+
+    if (roles.length !== rolesIds.length) {
+      throw new NotFoundException('Some roles not found');
+    }
+
+    try {
+      user.roles = roles;
+
+      await queryRunner.manager.save(user);
+      await queryRunner.commitTransaction();
+
+      return {
+        message: 'User roles set successfully',
+        data: user,
+      };
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+
+      this.handleErrors(error);
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
+  async assignPermissions(
+    id: number,
+    { permissionsIds }: UserPermissionsDto,
+  ): Promise<ResponseCustom<User>> {
+    const user = (await this.findOne(id, { withDeleted: false })).data;
+    const queryRunner =
+      this.userRepository.manager.connection.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    const permissions = await this.permissionRepository.find({
+      where: { id: In(permissionsIds) },
+    });
+
+    if (permissions.length !== permissionsIds.length) {
+      throw new NotFoundException('Some permissions not found');
+    }
+
+    try {
+      user.permissions = permissions;
+
+      await queryRunner.manager.save(user);
+      await queryRunner.commitTransaction();
+
+      return {
+        message: 'User permissions set successfully',
+        data: user,
+      };
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+
+      this.handleErrors(error);
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
+  async findAllPermissions(id: number): Promise<ResponseCustom<Permission[]>> {
+    const user = await this.userRepository.findOne({
+      where: { id: Equal(id) },
+      relations: {
+        roles: {
+          permissions: true,
+        },
+        permissions: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const permissionsFromRoles = user.roles.reduce(
+      (acc, role) => [...acc, ...role.permissions],
+      [] as Permission[],
+    );
+
+    const permissions = mergeDataByPropertyAndOrder(
+      [...permissionsFromRoles, ...user.permissions],
+      'id',
+    );
+
+    return {
+      message: 'User permissions retrieved successfully',
+      data: permissions,
+    };
   }
 }

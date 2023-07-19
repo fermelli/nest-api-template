@@ -23,10 +23,7 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@GetUser() user: User) {
-    return {
-      message: 'User profile fetched successfully',
-      data: user,
-    };
+  me(@GetUser() user: User) {
+    return this.authService.me(user);
   }
 }
