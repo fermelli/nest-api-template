@@ -6,10 +6,13 @@ import validationConfig from './app/config/validation.config';
 import { UnprocessableEntityExceptionFilter } from './app/filters/unprocessable-entity-exception.filter';
 import { ResponseCustomInterceptor } from './app/interceptors/response-custom.interceptor';
 import { HttpExceptionFilter } from './app/filters/http-exception.filter';
+import corsConfig from './app/config/cors.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+  const port = configService.get<number>('PORT', 3000);
+  const host = configService.get<string>('HOST', 'localhost');
 
   app.setGlobalPrefix('api');
 
@@ -22,10 +25,11 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ResponseCustomInterceptor());
 
-  await app.listen(
-    configService.get<number>('PORT', 3000),
-    configService.get<string>('HOST', 'localhost'),
-  );
+  app.enableCors(corsConfig());
+
+  await app.listen(port, host, () => {
+    console.log(`Server is running on http://${host}:${port}`);
+  });
 }
 
 bootstrap();
