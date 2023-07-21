@@ -1,7 +1,5 @@
-import { Pagination } from 'nestjs-typeorm-paginate';
-
 export const getPath = (host: string, requestUrl: string, data: any) => {
-  if (data instanceof Pagination) {
+  if ('items' in data && 'meta' in data) {
     const url = new URL(`${host}${requestUrl}`);
 
     if (!url.searchParams.get('page') && !url.searchParams.get('limit')) {

@@ -3,6 +3,7 @@ import {
   BadRequestException,
   NotFoundException,
   InternalServerErrorException,
+  ForbiddenException,
 } from '@nestjs/common';
 
 export const getDefaultMessage = (exception: HttpException): string => {
@@ -16,6 +17,10 @@ export const getDefaultMessage = (exception: HttpException): string => {
 
   if (exception instanceof InternalServerErrorException) {
     return 'Internal server error';
+  }
+
+  if (exception instanceof ForbiddenException) {
+    return 'Forbidden access';
   }
 
   return 'Something went wrong';

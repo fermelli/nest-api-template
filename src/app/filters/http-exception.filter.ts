@@ -3,6 +3,7 @@ import {
   BadRequestException,
   Catch,
   ExceptionFilter,
+  ForbiddenException,
   InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
@@ -15,6 +16,7 @@ import { getDefaultMessage } from 'src/app/utils/get-default-message.util';
   BadRequestException,
   InternalServerErrorException,
   UnauthorizedException,
+  ForbiddenException,
 )
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(
@@ -22,7 +24,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
       | NotFoundException
       | BadRequestException
       | InternalServerErrorException
-      | UnauthorizedException,
+      | UnauthorizedException
+      | ForbiddenException,
     host: ArgumentsHost,
   ) {
     const ctx = host.switchToHttp();
