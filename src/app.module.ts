@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CustomersModule } from './customers/customers.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
@@ -16,7 +15,6 @@ import databaseConfig from './app/config/database.config';
       expandVariables: true,
     }),
     TypeOrmModule.forRoot(databaseConfig()),
-    CustomersModule,
     AuthModule,
     UsersModule,
     RolesModule,
