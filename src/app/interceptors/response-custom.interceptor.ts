@@ -21,14 +21,13 @@ export class ResponseCustomInterceptor<T>
     const ctx = context.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
-    const host = request.headers.host;
     const requestUrl = request.url;
 
     return next.handle().pipe(
       map((res: ResponseCustom<T>) => {
         const { message, data, errors } = res;
 
-        const path = getPath(host, requestUrl, data);
+        const path = getPath(requestUrl, data);
 
         return {
           message: message || 'Request success',
