@@ -7,196 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "Customers",
-			"item": [
-				{
-					"name": "Create Customer",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"document\": \"{{$randomPhoneNumber}}\",\r\n    \"names\": \"{{$randomFirstName}}\",\r\n    \"surnames\": \"{{$randomLastName}}\",\r\n    \"phone\": \"{{$randomPhoneNumber}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url_api}}/customers",
-							"host": [
-								"{{url_api}}"
-							],
-							"path": [
-								"customers"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "FindAll Customers",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url_api}}/customers?withDeleted=true&page=1&limit=5",
-							"host": [
-								"{{url_api}}"
-							],
-							"path": [
-								"customers"
-							],
-							"query": [
-								{
-									"key": "withDeleted",
-									"value": "true"
-								},
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "5"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "FindOne Customer",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{url_api}}/customers/1?withDeleted=true",
-							"host": [
-								"{{url_api}}"
-							],
-							"path": [
-								"customers",
-								"1"
-							],
-							"query": [
-								{
-									"key": "withDeleted",
-									"value": "true"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Customer",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"document\": \"{{$randomPhoneNumber}}\",\r\n    \"names\": \"{{$randomFirstName}}\",\r\n    \"surnames\": \"{{$randomLastName}}\",\r\n    \"phone\": \"{{$randomPhoneNumber}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url_api}}/customers/1",
-							"host": [
-								"{{url_api}}"
-							],
-							"path": [
-								"customers",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Remove Customer",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{url_api}}/customers/1?withDeleted=true",
-							"host": [
-								"{{url_api}}"
-							],
-							"path": [
-								"customers",
-								"1"
-							],
-							"query": [
-								{
-									"key": "withDeleted",
-									"value": "true"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SoftRemove Customer",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{url_api}}/customers/2/soft",
-							"host": [
-								"{{url_api}}"
-							],
-							"path": [
-								"customers",
-								"2",
-								"soft"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Restore Customer",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"document\": \"123456\",\r\n    \"names\": \"Luis Fernando\",\r\n    \"surnames\": \"Salgado Miguez\",\r\n    \"phone\": \"78888888\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url_api}}/customers/2/restore",
-							"host": [
-								"{{url_api}}"
-							],
-							"path": [
-								"customers",
-								"2",
-								"restore"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Users",
 			"item": [
 				{
@@ -206,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"name\": \"{{$randomUserName}}\",\r\n   \"email\": \"{{$randomEmail}}\"\r\n}",
+							"raw": "{\r\n   \"name\": \"{{$randomUserName}}\",\r\n   \"EMAIL\": \"{{$RANDOMEMAIL}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -214,12 +24,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url_api}}/users",
+							"raw": "{{url_api}}/users/",
 							"host": [
 								"{{url_api}}"
 							],
 							"path": [
-								"users"
+								"users",
+								""
 							]
 						}
 					},
@@ -474,7 +285,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"terence_braun29@yahoo.com\",\r\n    \"password\": \"Password.123\"\r\n}",
+							"raw": "{\r\n    \"email\": \"bernita_nicolas@gmail.com\",\r\n    \"password\": \"Password.123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -770,7 +581,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTGFuZXlfVm9sa21hbjUxIiwiZW1haWwiOiJhbGJpbmFfbGVkbmVyODFAeWFob28uY29tIiwiaWQiOjEsImNyZWF0ZWRBdCI6IjIwMjMtMDctMTlUMDQ6MTI6MzEuNzAxWiIsInVwZGF0ZWRBdCI6IjIwMjMtMDctMTlUMDQ6MTI6MzEuNzAxWiIsImlhdCI6MTY4OTczOTk1MSwiZXhwIjoxNjg5NzU0MzUxfQ.FYmVyjzrlAzfvf3xlEUgBBex48nqoInVQf1La5VnE6M",
+				"value": "{{token}}",
 				"type": "string"
 			}
 		]
@@ -781,7 +592,50 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					""
+					"const path = pm.request.url.getPath();",
+					"const urlApi = pm.collectionVariables.get('url_api');",
+					"const token = pm.collectionVariables.get('token');",
+					"",
+					"if(path !== '/auth/me' && path !== '/auth/sign-in' && path !== '/auth/sign-up') {",
+					"     pm.sendRequest({",
+					"        url: `${urlApi}/auth/me`,",
+					"        method: 'GET',",
+					"        header: {",
+					"            'Content-Type': 'application/json',",
+					"            'X-Requested-With': 'XMLHttpRequest',",
+					"            'Authorization': `Bearer ${token}`",
+					"        },",
+					"    }, (err, res) => {",
+					"        if(res.code === 401) {",
+					"            const email = pm.collectionVariables.get('email');",
+					"            const password = pm.collectionVariables.get('password');",
+					"",
+					"            pm.sendRequest({",
+					"                url: `${urlApi}/auth/sign-in`,",
+					"                method: 'POST',",
+					"                header: {",
+					"                    'Content-Type': 'application/json',",
+					"                },",
+					"                body: {",
+					"                    mode: 'raw',",
+					"                    raw: JSON.stringify({",
+					"                        \"email\": email,",
+					"                        \"password\": password,",
+					"                    }),",
+					"                },",
+					"            }, function (err, res) {",
+					"                if(res.code === 404) {",
+					"                    console.log('Usuario no existe');",
+					"                } else {",
+					"                    const token = res.json().data.accessToken;",
+					"",
+					"                    pm.collectionVariables.set('token', token);",
+					"                }",
+					"",
+					"            });",
+					"        }",
+					"    });",
+					"}"
 				]
 			}
 		},
@@ -800,6 +654,20 @@
 			"key": "url_api",
 			"value": "http://localhost:3000/api",
 			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": "albina_ledner81@yahoo.com",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "MyPassword123$",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": ""
 		}
 	]
 }
