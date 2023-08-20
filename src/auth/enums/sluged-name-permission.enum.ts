@@ -1,10 +1,4 @@
 export enum SlugedNamePermission {
-  CREATE_CUSTOMER = 'create-customer',
-  READ_CUSTOMER = 'read-customer',
-  UPDATE_CUSTOMER = 'update-customer',
-  DELETE_CUSTOMER = 'delete-customer',
-  INACTIVATE_CUSTOMER = 'inactivate-customer',
-  ACTIVATE_CUSTOMER = 'activate-customer',
   CREATE_USER = 'create-user',
   READ_USER = 'read-user',
   UPDATE_USER = 'update-user',
