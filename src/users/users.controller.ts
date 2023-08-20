@@ -54,13 +54,13 @@ export class UsersController {
   }
 
   @Delete(':id/soft')
-  @Permission(SlugedNamePermission.INACTIVATE_CUSTOMER)
+  @Permission(SlugedNamePermission.INACTIVATE_USER)
   softRemove(@Param() { id }: FindOneParams) {
     return this.usersService.softRemove(id);
   }
 
   @Patch(':id/restore')
-  @Permission(SlugedNamePermission.ACTIVATE_CUSTOMER)
+  @Permission(SlugedNamePermission.ACTIVATE_USER)
   restore(@Param() { id }: FindOneParams) {
     return this.usersService.restore(id);
   }
