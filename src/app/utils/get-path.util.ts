@@ -1,5 +1,5 @@
 export const getPath = (requestUrl: string, data: any) => {
-  if ('items' in data && 'meta' in data) {
+  if (data && 'items' in data && 'meta' in data) {
     const { meta } = data;
     const { currentPage, itemsPerPage } = meta;
     const queryParams = getQueryParams(requestUrl);
