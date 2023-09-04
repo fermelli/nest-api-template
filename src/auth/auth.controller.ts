@@ -5,6 +5,8 @@ import { Public } from './decorators/public.decorator';
 import { SignUpDto } from './dto/sign-up-dto';
 import { User } from 'src/users/entities/user.entity';
 import { GetUser } from './decorators/get-user.decorator';
+import { Permission } from 'src/auth/decorators/permission.decorator';
+import { SlugedNamePermission } from 'src/auth/enums/sluged-name-permission.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -23,6 +25,7 @@ export class AuthController {
   }
 
   @Get('me')
+  @Permission(SlugedNamePermission.GET_DATA_ABOUT_ME)
   me(@GetUser() user: User) {
     return this.authService.me(user);
   }

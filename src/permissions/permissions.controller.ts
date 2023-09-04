@@ -16,7 +16,7 @@ export class PermissionsController {
   }
 
   @Get(':id')
-  @Permission(SlugedNamePermission.READ_PERMISSIONS)
+  @Permission(SlugedNamePermission.READ_PERMISSION)
   findOne(@Param() { id }: FindOneParams) {
     return this.permissionsService.findOne(id);
   }

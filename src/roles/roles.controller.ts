@@ -28,7 +28,7 @@ export class RolesController {
   }
 
   @Get()
-  @Permission(SlugedNamePermission.READ_ROLE)
+  @Permission(SlugedNamePermission.READ_ROLES)
   findAll(@Query() query: PaginationAndWithDeletedDto) {
     return this.rolesService.findAll(query);
   }

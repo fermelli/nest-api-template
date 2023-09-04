@@ -285,7 +285,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"bernita_nicolas@gmail.com\",\r\n    \"password\": \"Password.123\"\r\n}",
+							"raw": "{\r\n    \"email\": \"coleman55@gmail.com\",\r\n    \"password\": \"Password.123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -574,6 +574,59 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Profiles",
+			"item": [
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "firstName",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "birthDate",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "profilePictureImage",
+									"type": "file",
+									"src": "/C:/Users/fermelli/Pictures/Screenshots/Screenshot (4).png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url_api}}/profiles/1",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"profiles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -606,6 +659,7 @@
 					"            'Authorization': `Bearer ${token}`",
 					"        },",
 					"    }, (err, res) => {",
+					"        console.log(res);",
 					"        if(res.code === 401) {",
 					"            const email = pm.collectionVariables.get('email');",
 					"            const password = pm.collectionVariables.get('password');",
@@ -652,17 +706,17 @@
 	"variable": [
 		{
 			"key": "url_api",
-			"value": "http://localhost:3000/api",
+			"value": "http://localhost:3001/api",
 			"type": "string"
 		},
 		{
 			"key": "email",
-			"value": "albina_ledner81@yahoo.com",
+			"value": "coleman55@gmail.com",
 			"type": "string"
 		},
 		{
 			"key": "password",
-			"value": "MyPassword123$",
+			"value": "Password.123",
 			"type": "string"
 		},
 		{
