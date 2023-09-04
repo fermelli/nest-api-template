@@ -1,5 +1,6 @@
 export enum SlugedNamePermission {
   CREATE_USER = 'create-user',
+  READ_USERS = 'read-users',
   READ_USER = 'read-user',
   UPDATE_USER = 'update-user',
   DELETE_USER = 'delete-user',
@@ -9,12 +10,14 @@ export enum SlugedNamePermission {
   ASSIGN_ROLES_TO_USER = 'assign-roles-to-user',
   ASSIGN_PERMISSIONS_TO_USER = 'assign-permissions-to-user',
   FIND_ALL_PERMISSIONS_OF_USER = 'find-all-permissions-of-user',
-  GET_ME_DATA = 'get-me-data',
+  GET_DATA_ABOUT_ME = 'get-data-about-me',
   CREATE_ROLE = 'create-role',
+  READ_ROLES = 'read-roles',
   READ_ROLE = 'read-role',
   UPDATE_ROLE = 'update-role',
   DELETE_ROLE = 'delete-role',
   ASSIGN_PERMISSIONS_TO_ROLE = 'assign-permissions-to-role',
   READ_PERMISSIONS = 'read-permissions',
+  READ_PERMISSION = 'read-permission',
   DELETE_PERMISSION = 'delete-permission',
 }

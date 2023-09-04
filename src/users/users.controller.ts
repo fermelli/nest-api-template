@@ -30,7 +30,7 @@ export class UsersController {
   }
 
   @Get()
-  @Permission(SlugedNamePermission.READ_USER)
+  @Permission(SlugedNamePermission.READ_USERS)
   findAll(@Query() query: PaginationAndWithDeletedDto) {
     return this.usersService.findAll(query);
   }
