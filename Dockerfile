@@ -6,7 +6,7 @@ FROM node:18-alpine AS development
 
 WORKDIR /usr/src/app
 
-COPY --chown=node:node package*.json ./
+COPY --chown=node:node package*.json yarn.lock ./
 
 # RUN npm ci
 RUN yarn install --frozen-lockfile
@@ -23,13 +23,13 @@ FROM node:18-alpine AS build
 
 WORKDIR /usr/src/app
 
-COPY --chown=node:node package*.json ./
+COPY --chown=node:node package*.json yarn.lock ./
 
 COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
 
 COPY --chown=node:node . .
 
-RUN npm run build
+RUN yarn run build
 
 ENV NODE_ENV production
 

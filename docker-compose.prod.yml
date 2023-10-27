@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  nest-api-prod:
+    container_name: ${DOCKER_CONTAINER_NAME}
+    image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG:-latest}
+    build:
+      dockerfile: Dockerfile
+      context: .
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    restart: always
