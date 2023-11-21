@@ -7,6 +7,7 @@ import { UnprocessableEntityExceptionFilter } from './app/filters/unprocessable-
 import { ResponseCustomInterceptor } from './app/interceptors/response-custom.interceptor';
 import { HttpExceptionFilter } from './app/filters/http-exception.filter';
 import corsConfig from './app/config/cors.config';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -26,6 +27,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseCustomInterceptor());
 
   app.enableCors(corsConfig());
+
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   await app.listen(port, host, () => {
     console.log(`Server is running on http://${host}:${port}`);
