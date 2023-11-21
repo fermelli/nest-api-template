@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "13959a2f-31d0-4ccf-b215-b6ff884f2cae",
+		"_postman_id": "23af39dc-c370-4d33-8272-917048dccd2f",
 		"name": "Nest API Template",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "8046053"
+		"_exporter_id": "23398434",
+		"_collection_link": "https://martian-equinox-531321.postman.co/workspace/FACTURACION-PROCID~dd8c20d9-f0df-4b14-875d-cda140b43e58/collection/23398434-23af39dc-c370-4d33-8272-917048dccd2f?action=share&source=collection_link&creator=23398434"
 	},
 	"item": [
 		{
@@ -206,7 +207,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"permissionsIds\": [\r\n        1,\r\n        2,\r\n        3,\r\n        4,\r\n        5,\r\n        6,\r\n        7,\r\n        8,\r\n        9,\r\n        10,\r\n        11,\r\n        12,\r\n        13,\r\n        14,\r\n        15,\r\n        16,\r\n        17\r\n    ]\r\n}",
+							"raw": "{\r\n    \"permissionsIds\": [\r\n        1,\r\n        2,\r\n        3,\r\n        4,\r\n        5,\r\n        6,\r\n        7,\r\n        8,\r\n        9,\r\n        10,\r\n        11,\r\n        12,\r\n        13,\r\n        14,\r\n        15,\r\n        16,\r\n        17,\r\n        18,\r\n        19,\r\n        20,\r\n        21\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -706,7 +707,7 @@
 	"variable": [
 		{
 			"key": "url_api",
-			"value": "http://localhost:3001/api",
+			"value": "http://localhost:3000/api",
 			"type": "string"
 		},
 		{
