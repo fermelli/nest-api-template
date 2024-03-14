@@ -10,7 +10,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 export class SignUpDto extends CreateUserDto {
   @IsNotEmpty()
   @IsString()
-  @MaxLength(16)
+  @MaxLength(64)
   @IsStrongPassword({
     minLength: 8,
     minUppercase: 1,
