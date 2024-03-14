@@ -38,13 +38,14 @@ export class UsersService extends BaseService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<ResponseCustom<User>> {
+    const defaultPassword = this.configService.get<string>(
+      'USER_DEFAULT_PASSWORD',
+      'NestAPI@2023',
+    );
+
     try {
-      const password = hashSync(
-        this.configService.get<string>('USER_DEFAULT_PASSWORD'),
-        10,
-      );
       const user = this.userRepository.create({
-        password,
+        password: hashSync(defaultPassword, 10),
         ...createUserDto,
       });
 
