@@ -1,50 +1,38 @@
-###############################
-# BUILD FOR LOCAL DEVELOPMENT #
-###############################
-
-FROM node:18-alpine AS development
+FROM node:18.19.1-alpine3.19 AS development
 
 WORKDIR /usr/src/app
 
-COPY --chown=node:node package*.json yarn.lock ./
+COPY package*.json ./
+COPY yarn.lock ./
 
-# RUN npm ci
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
-COPY --chown=node:node . .
+COPY . .
 
-USER node
-
-###############################
-# BUILD FOR PRODUCTION        #
-###############################
-
-FROM node:18-alpine AS build
+######################
+# BUILD FOR PRODUCTION
+######################
+FROM node:18.19.1-alpine3.19 AS build
 
 WORKDIR /usr/src/app
 
-COPY --chown=node:node package*.json yarn.lock ./
+COPY package*.json ./
+COPY yarn.lock ./
 
-COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
+COPY --from=development /usr/src/app/node_modules ./node_modules
 
-COPY --chown=node:node . .
+COPY . .
 
-RUN yarn run build
+RUN yarn build
 
-ENV NODE_ENV production
+RUN yarn install --frozen-lockfile --production && yarn cache clean
 
-# RUN npm ci --only=production && npm cache clean --force
-RUN yarn install --frozen-lockfile --production && yarn cache clean --force
+######################
+# PRODUCTION
+######################
+FROM node:18.19.1-alpine3.19 AS production
 
-USER node
+COPY --from=build /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/dist ./dist
 
-###############################
-# PRODUCTION                  #
-###############################
-
-FROM node:18-alpine AS production
-
-COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
-COPY --chown=node:node --from=build /usr/src/app/dist ./dist
-
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/main"]
