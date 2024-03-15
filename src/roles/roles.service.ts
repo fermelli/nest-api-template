@@ -17,6 +17,7 @@ export class RolesService extends BaseService {
   constructor(
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
+
     @InjectRepository(Permission)
     private readonly permissionRepository: Repository<Permission>,
   ) {
