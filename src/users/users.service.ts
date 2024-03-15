@@ -212,10 +212,6 @@ export class UsersService extends BaseService {
       where: { id: In(rolesIds) },
     });
 
-    if (roles.length !== rolesIds.length) {
-      throw new NotFoundException('Some roles not found');
-    }
-
     try {
       user.roles = roles;
 
@@ -249,10 +245,6 @@ export class UsersService extends BaseService {
     const permissions = await this.permissionRepository.find({
       where: { id: In(permissionsIds) },
     });
-
-    if (permissions.length !== permissionsIds.length) {
-      throw new NotFoundException('Some permissions not found');
-    }
 
     try {
       user.permissions = permissions;
