@@ -75,8 +75,6 @@ export const extractField = (
   }
 
   if (sql.includes('UPDATE')) {
-    console.log('UPDATE');
-
     return extractFieldForUpdateQuery(sql, value);
   }
 
