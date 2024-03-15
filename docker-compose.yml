@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   nest-api-template:
+    container_name: nest-api-template
     image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     env_file:
       - .env
