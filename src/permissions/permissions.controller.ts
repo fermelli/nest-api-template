@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 import { FindOneParams } from 'src/common/dtos/find-one-params.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
@@ -19,11 +19,5 @@ export class PermissionsController {
   @Permission(SlugedNamePermission.READ_PERMISSION)
   findOne(@Param() { id }: FindOneParams) {
     return this.permissionsService.findOne(id);
-  }
-
-  @Delete(':id')
-  @Permission(SlugedNamePermission.DELETE_PERMISSION)
-  remove(@Param() { id }: FindOneParams) {
-    return this.permissionsService.remove(id);
   }
 }

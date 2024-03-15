@@ -55,19 +55,4 @@ export class PermissionsService extends BaseService {
       data: permission,
     };
   }
-
-  async remove(id: number): Promise<ResponseCustom<Permission>> {
-    const permission = (await this.findOne(id)).data;
-
-    try {
-      await this.permissionRepository.remove(permission);
-
-      return {
-        message: 'Permission deleted successfully',
-        data: permission,
-      };
-    } catch (error) {
-      this.handleErrors(error);
-    }
-  }
 }
