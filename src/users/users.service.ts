@@ -28,10 +28,13 @@ export class UsersService extends BaseService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
+
     @InjectRepository(Permission)
     private readonly permissionRepository: Repository<Permission>,
+
     private readonly configService: ConfigService,
   ) {
     super();
@@ -73,6 +76,7 @@ export class UsersService extends BaseService {
           roles: {
             permissions: true,
           },
+          permissions: true,
         },
         withDeleted,
         resourceName: 'Users',

@@ -59,12 +59,8 @@ export class User {
   })
   deletedAt?: Date | null;
 
-  emailToLowerCase() {
-    this.email = this.email.toLowerCase();
-  }
-
   @ManyToMany(() => Role, (role) => role.users, {
-    onDelete: 'CASCADE',
+    onDelete: 'NO ACTION',
     onUpdate: 'CASCADE',
   })
   @JoinTable({
@@ -75,7 +71,7 @@ export class User {
   roles: Role[];
 
   @ManyToMany(() => Permission, (permission) => permission.users, {
-    onDelete: 'CASCADE',
+    onDelete: 'NO ACTION',
     onUpdate: 'CASCADE',
   })
   @JoinTable({
@@ -84,6 +80,10 @@ export class User {
     inverseJoinColumn: { name: 'permission_id' },
   })
   permissions: Permission[];
+
+  emailToLowerCase() {
+    this.email = this.email.toLowerCase();
+  }
 
   @BeforeInsert()
   beboreInsertActions() {
