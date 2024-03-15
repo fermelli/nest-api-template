@@ -9,11 +9,13 @@ import { SignUpDto } from './dto/sign-up-dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { compareSync, hashSync } from 'bcrypt';
 import { Me } from './entities/me.entity';
+import { SignInDto } from './dto/sign-in.dto';
 
 @Injectable()
 export class AuthService extends BaseService {
   constructor(
     private readonly usersService: UsersService,
+
     private readonly jwtService: JwtService,
   ) {
     super();
@@ -36,9 +38,9 @@ export class AuthService extends BaseService {
   }
 
   async signIn(
-    email: string,
-    password: string,
+    signInDto: SignInDto,
   ): Promise<ResponseCustom<TokenAccessResponse>> {
+    const { email, password } = signInDto;
     const { data } = await this.usersService.findOneByEmail(email);
     const user = data;
 

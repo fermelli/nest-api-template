@@ -11,6 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     readonly configService: ConfigService,
+
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {

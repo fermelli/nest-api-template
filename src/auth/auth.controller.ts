@@ -21,7 +21,7 @@ export class AuthController {
   @Public()
   @Post('sign-in')
   signIn(@Body() signInDto: SignInDto) {
-    return this.authService.signIn(signInDto.email, signInDto.password);
+    return this.authService.signIn(signInDto);
   }
 
   @Get('me')
