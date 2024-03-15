@@ -60,7 +60,7 @@ export class User {
   deletedAt?: Date | null;
 
   @ManyToMany(() => Role, (role) => role.users, {
-    onDelete: 'NO ACTION',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinTable({
@@ -71,7 +71,7 @@ export class User {
   roles: Role[];
 
   @ManyToMany(() => Permission, (permission) => permission.users, {
-    onDelete: 'NO ACTION',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinTable({
