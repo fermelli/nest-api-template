@@ -9,4 +9,5 @@ export default (): TypeOrmModuleOptions => ({
   database: process.env.DATABASE_NAME || 'test',
   synchronize: process.env.DATABASE_SYNCHRONIZE == 'true' || false,
   autoLoadEntities: process.env.DATABASE_AUTO_LOAD_ENTITIES == 'true' || false,
+  logging: process.env.DATABASE_LOGGING == 'true' || false,
 });
