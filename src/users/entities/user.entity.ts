@@ -16,7 +16,7 @@ import { Permission } from 'src/permissions/entities/permission.entity';
 
 @Entity('users')
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'id', type: 'int', unsigned: true })
   id: number;
 
   @Column({ name: 'name', type: 'varchar', length: 48, nullable: false })
@@ -44,18 +44,23 @@ export class User {
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
     name: 'deleted_at',
     type: 'timestamp',
+    nullable: true,
   })
   deletedAt?: Date | null;
 

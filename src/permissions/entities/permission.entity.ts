@@ -12,27 +12,43 @@ import {
 
 @Entity('permissions')
 export class Permission {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'id', type: 'int', unsigned: true })
   id: number;
 
-  @Column({ name: 'name', type: 'varchar', length: 64, unique: true })
+  @Column({
+    name: 'name',
+    type: 'varchar',
+    length: 64,
+    nullable: false,
+    unique: true,
+  })
   name: string;
 
-  @Column({ name: 'sluged_name', type: 'varchar', length: 128, unique: true })
+  @Column({
+    name: 'sluged_name',
+    type: 'varchar',
+    length: 128,
+    nullable: false,
+    unique: true,
+  })
   slugedName: string;
 
-  @Column({ name: 'group', type: 'varchar', length: 64 })
+  @Column({ name: 'group', type: 'varchar', length: 64, nullable: false })
   group: string;
 
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
 
