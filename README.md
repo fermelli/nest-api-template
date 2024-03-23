@@ -53,6 +53,24 @@ $ docker build -t nest-api-template .
 $ docker compose up
 ```
 
+## Migrations
+
+```bash
+# Create a new migration
+
+# Yarn
+$ npm_config_migration_name=[nombre_de_la_migracion] yarn run migration:create
+
+# NPM (recommended)
+$ npm run migration:create --migration_name=[nombre_de_la_migracion]
+
+# Run the migrations
+$ yarn run migration:run
+
+# Revert the migrations
+$ yarn run migration:revert
+```
+
 ## Info
 
 - Author - [fermelli](https://github.com/fermelli)

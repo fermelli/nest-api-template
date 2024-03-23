@@ -10,4 +10,8 @@ export default (): TypeOrmModuleOptions => ({
   synchronize: process.env.DATABASE_SYNCHRONIZE == 'true' || false,
   autoLoadEntities: process.env.DATABASE_AUTO_LOAD_ENTITIES == 'true' || false,
   logging: process.env.DATABASE_LOGGING == 'true' || false,
+  migrations: ['dist/database/migrations/*.{ts,js}'],
+  migrationsTableName:
+    process.env.DATABASE_MIGRATIONS_TABLE_NAME || 'migrations',
+  migrationsRun: process.env.DATABASE_MIGRATIONS_RUN == 'true' || false,
 });
