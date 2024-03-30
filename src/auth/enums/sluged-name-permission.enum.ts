@@ -19,5 +19,4 @@ export enum SlugedNamePermission {
   ASSIGN_PERMISSIONS_TO_ROLE = 'assign-permissions-to-role',
   READ_PERMISSIONS = 'read-permissions',
   READ_PERMISSION = 'read-permission',
-  DELETE_PERMISSION = 'delete-permission',
 }
