@@ -74,3 +74,35 @@ $ yarn run migration:revert
 ## Info
 
 - Author - [fermelli](https://github.com/fermelli)
+
+## Features
+
+- [x] Authentication with JWT
+  - [x] Sign up
+  - [x] Sign in
+  - [x] Me
+- [x] Authorization with roles and permissions
+  - [x] Permission guard
+  - [x] Permission decorator
+  - [x] Public decorator
+- [x] User management
+  - [x] Create user
+  - [x] Get users
+  - [x] Get by email
+  - [x] Get user
+  - [x] Delete user
+  - [x] Soft delete user
+  - [x] Restore user
+  - [x] Assign roles
+  - [x] Assign permissions
+  - [x] Get all permissions (permissions from roles and direct permissions)
+- [x] Role management
+  - [x] Create role
+  - [x] Get roles
+  - [x] Get role
+  - [x] Update role
+  - [x] Delete role
+  - [x] Assign permissions
+- [x] Permission management
+  - [x] Get permissions
+  - [x] Get permission
