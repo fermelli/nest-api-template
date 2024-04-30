@@ -1,6 +1,7 @@
 import {
   CallHandler,
   ExecutionContext,
+  HttpStatus,
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
@@ -25,16 +26,18 @@ export class ResponseCustomInterceptor<T>
 
     return next.handle().pipe(
       map((res: ResponseCustom<T>) => {
-        const { message, data, errors } = res;
-
+        const message = res?.message || 'Request success';
+        const statusCode = response?.statusCode || HttpStatus.OK;
+        const data = res?.data || null;
+        const errors = res?.errors || null;
         const path = getPath(requestUrl, data);
 
         return {
-          message: message || 'Request success',
-          statusCode: response.statusCode,
-          data: data || null,
-          path: path || null,
-          errors: errors || null,
+          message,
+          statusCode,
+          data,
+          path,
+          errors,
         };
       }),
     );
