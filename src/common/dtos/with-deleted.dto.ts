@@ -5,5 +5,5 @@ export class WithDeletedDto {
   @IsOptional()
   @IsBoolean()
   @Transform(({ value }) => [true, 'true', 1, '1', 'yes', 'on'].includes(value))
-  withDeleted: boolean;
+  withDeleted?: boolean;
 }
