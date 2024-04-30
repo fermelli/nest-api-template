@@ -7,7 +7,6 @@ import { SUPER_ADMIN_ROLE_DATA } from './data/super-admin-role.data';
 import { User } from 'src/users/entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { hashSync } from 'bcrypt';
-import { SUPER_ADMIN_USER_DATA } from './data/super-admin-user.data';
 
 export class Seeder {
   private static readonly logger = new Logger();
@@ -59,13 +58,24 @@ export class Seeder {
     configService: ConfigService,
   ): Promise<void> {
     const userRepository = dataSource.getRepository(User);
+    const defaultName = configService.get<string>(
+      'SUPER_ADMIN_USER_DEFAULT_NAME',
+      'Super Admin',
+    );
+    const defaultEmail = configService.get<string>(
+      'SUPER_ADMIN_USER_DEFAULT_EMAIL',
+      'super-admin@nest-api-template.com',
+    );
     const defaultPassword = configService.get<string>(
       'SUPER_ADMIN_USER_DEFAULT_PASSWORD',
       'NestAPISuperAdmin@2023',
     );
     const superAdminUser = userRepository.create({
-      ...SUPER_ADMIN_USER_DATA,
+      id: 1,
+      name: defaultName,
+      email: defaultEmail,
       password: hashSync(defaultPassword, 10),
+      roles: [SUPER_ADMIN_ROLE_DATA],
     });
 
     try {
