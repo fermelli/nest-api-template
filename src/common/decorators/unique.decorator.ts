@@ -22,7 +22,9 @@ export class UniqueConstraint implements ValidatorConstraintInterface {
     const [constraints] = args.constraints;
     const { entity, column } = constraints as UniqueProperties;
     const repository = this.dataSource.getRepository(entity);
-    const result = await repository.findOne({ where: { [column]: Equal(value) } });
+    const result = await repository.findOne({
+      where: { [column]: Equal(value) },
+    });
 
     return result == null;
   }
