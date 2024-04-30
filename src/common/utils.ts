@@ -57,3 +57,19 @@ export function mergeDataByPropertyAndOrder<T>(data: T[], property: string) {
     .reduce(mergeDataByProperty(property), [] as T[])
     .sort((a, b) => a[property] - b[property]);
 }
+
+export const transformToBoolean = ({ value }) => {
+  if (value === undefined || value === null) {
+    return !!value;
+  }
+
+  if ([true, 'true', 1, '1'].includes(value)) {
+    return true;
+  }
+
+  if ([false, 'false', 0, '0'].includes(value)) {
+    return false;
+  }
+
+  return value;
+};
