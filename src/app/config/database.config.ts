@@ -1,17 +1,27 @@
+import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-export default (): TypeOrmModuleOptions => ({
-  type: (process.env.DATABASE_TYPE as 'mysql' | 'mariadb') || 'mysql',
-  host: process.env.DATABASE_HOST,
-  port: parseInt(process.env.DATABASE_PORT, 10) || 3306,
-  username: process.env.DATABASE_USERNAME || 'root',
-  password: process.env.DATABASE_PASSWORD || '',
-  database: process.env.DATABASE_NAME || 'test',
-  synchronize: process.env.DATABASE_SYNCHRONIZE == 'true' || false,
-  autoLoadEntities: process.env.DATABASE_AUTO_LOAD_ENTITIES == 'true' || false,
-  logging: process.env.DATABASE_LOGGING == 'true' || false,
+export default async (
+  configService: ConfigService,
+): Promise<TypeOrmModuleOptions> => ({
+  type: configService.get<string>('DATABASE_TYPE', 'mysql') as
+    | 'mysql'
+    | 'mariadb',
+  host: configService.get<string>('DATABASE_HOST', 'localhost'),
+  port: parseInt(configService.get<string>('DATABASE_PORT', '3306'), 10),
+  username: configService.get<string>('DATABASE_USERNAME', 'root'),
+  password: configService.get<string>('DATABASE_PASSWORD', ''),
+  database: configService.get<string>('DATABASE_NAME', 'test'),
+  synchronize:
+    configService.get<string>('DATABASE_SYNCHRONIZE', 'false') === 'true',
+  autoLoadEntities:
+    configService.get<string>('DATABASE_AUTO_LOAD_ENTITIES', 'true') === 'true',
+  logging: configService.get<string>('DATABASE_LOGGING', 'false') === 'true',
   migrations: ['dist/database/migrations/*.{ts,js}'],
-  migrationsTableName:
-    process.env.DATABASE_MIGRATIONS_TABLE_NAME || 'migrations',
-  migrationsRun: process.env.DATABASE_MIGRATIONS_RUN == 'true' || false,
+  migrationsTableName: configService.get<string>(
+    'DATABASE_MIGRATIONS_TABLE_NAME',
+    'migrations',
+  ),
+  migrationsRun:
+    configService.get<string>('DATABASE_MIGRATIONS_RUN', 'false') === 'true',
 });

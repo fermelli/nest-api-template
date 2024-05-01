@@ -20,7 +20,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  app.useGlobalPipes(new ValidationPipe(validationConfig()));
+  app.useGlobalPipes(new ValidationPipe(validationConfig(configService)));
 
   app.useGlobalFilters(
     new UnprocessableEntityExceptionFilter(),
@@ -29,7 +29,7 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ResponseCustomInterceptor());
 
-  app.enableCors(corsConfig());
+  app.enableCors(corsConfig(configService));
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
