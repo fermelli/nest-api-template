@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import validationConfig from './app/config/validation.config';
 import { UnprocessableEntityExceptionFilter } from './app/filters/unprocessable-entity-exception.filter';
 import { ResponseCustomInterceptor } from './app/interceptors/response-custom.interceptor';
@@ -12,6 +12,7 @@ import { DataSource } from 'typeorm';
 import { Seeder } from './database/seeders/seeder';
 
 async function bootstrap() {
+  const logger = new Logger('Main');
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT', 3000);
@@ -36,7 +37,7 @@ async function bootstrap() {
   await Seeder.run(dataSource, configService);
 
   await app.listen(port, host, () => {
-    console.log(`Server is running on http://${host}:${port}`);
+    logger.log(`Server is running on ${host}:${port}`);
   });
 }
 
