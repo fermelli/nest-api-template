@@ -9,7 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { hashSync } from 'bcrypt';
 
 export class Seeder {
-  private static readonly logger = new Logger();
+  private static readonly logger = new Logger(this.name);
 
   static async run(
     dataSource: DataSource,
