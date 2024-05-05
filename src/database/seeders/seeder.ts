@@ -39,10 +39,7 @@ export class Seeder {
 
   static async seedSuperAdminRole(dataSource: DataSource): Promise<void> {
     const roleRepository = dataSource.getRepository(Role);
-    const adminRole = roleRepository.create({
-      ...SUPER_ADMIN_ROLE_DATA,
-      permissions: PERMISSIONS_DATA,
-    });
+    const adminRole = roleRepository.create(SUPER_ADMIN_ROLE_DATA);
 
     try {
       await roleRepository.save(adminRole);
