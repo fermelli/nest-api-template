@@ -47,7 +47,7 @@ export class Seeder {
     try {
       await roleRepository.save(adminRole);
 
-      this.logger.log('Admin role seeded successfully');
+      this.logger.log('Super Admin Role seeded successfully');
     } catch (error) {
       this.logger.error(error);
     }
@@ -81,7 +81,7 @@ export class Seeder {
     try {
       await userRepository.save(superAdminUser);
 
-      this.logger.log('Super admin user seeded successfully');
+      this.logger.log('Super Admin User seeded successfully');
     } catch (error) {
       this.logger.error(error);
     }
