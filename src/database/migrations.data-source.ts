@@ -1,7 +1,5 @@
+import 'dotenv/config';
 import { DataSource } from 'typeorm';
-import { config } from 'dotenv';
-
-config();
 
 export default new DataSource({
   type: (process.env.DATABASE_TYPE as 'mysql' | 'mariadb') || 'mysql',
