@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { ConfigService } from '@nestjs/config';
 
