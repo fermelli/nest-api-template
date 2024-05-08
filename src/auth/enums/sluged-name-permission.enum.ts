@@ -19,4 +19,12 @@ export enum SlugedNamePermission {
   ASSIGN_PERMISSIONS_TO_ROLE = 'assign-permissions-to-role',
   READ_PERMISSIONS = 'read-permissions',
   READ_PERMISSION = 'read-permission',
+  READ_TENANTS = 'read-tenants',
+  READ_TENANT = 'read-tenant',
+  CREATE_TENANT = 'create-tenant',
+  UPDATE_TENANT = 'update-tenant',
+  INACTIVATE_TENANT = 'inactivate-tenant',
+  ACTIVATE_TENANT = 'activate-tenant',
+  READ_TENANT_USERS = 'read-tenant-users',
+  RESET_TENANT_USER_PASSWORD = 'reset-tenant-user-password',
 }

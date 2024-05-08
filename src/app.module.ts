@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import databaseConfig from './app/config/database.config';
+import { TenantsModule } from './tenants/tenants.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import databaseConfig from './app/config/database.config';
       useFactory: databaseConfig,
       inject: [ConfigService],
     }),
+    TenantsModule,
     AuthModule,
     UsersModule,
     RolesModule,

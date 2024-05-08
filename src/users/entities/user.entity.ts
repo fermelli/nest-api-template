@@ -7,12 +7,14 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Role } from 'src/roles/entities/role.entity';
 import { Permission } from 'src/permissions/entities/permission.entity';
+import { Tenant } from 'src/tenants/entities/tenants.entity';
 
 @Entity('users')
 export class User {
@@ -99,4 +101,7 @@ export class User {
   beboreUpdateActions() {
     this.emailToLowerCase();
   }
+
+  @OneToMany(() => Tenant, (tenant) => tenant.user)
+  tenants: Tenant[];
 }

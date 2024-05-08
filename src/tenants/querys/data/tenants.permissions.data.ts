@@ -1,15 +1,15 @@
 import { SlugedNamePermission } from 'src/auth/enums/sluged-name-permission.enum';
 
-export type Group = 'User' | 'Role' | 'Permission' | 'Tenant' | 'Other';
+export type TenantsGroup = 'User' | 'Role' | 'Permission' | 'Other';
 
-export interface PermissionDatum {
+export interface TenantsPermissionDatum {
   id: number;
   name: string;
   slugedName: SlugedNamePermission;
-  group: Group;
+  group: TenantsGroup;
 }
 
-export const PERMISSIONS_DATA: PermissionDatum[] = [
+export const TENANTS_PERMISSIONS_DATA: TenantsPermissionDatum[] = [
   {
     id: 1,
     name: 'Create User',
@@ -129,53 +129,5 @@ export const PERMISSIONS_DATA: PermissionDatum[] = [
     name: 'Read Permission',
     slugedName: SlugedNamePermission.READ_PERMISSION,
     group: 'Permission',
-  },
-  {
-    id: 21,
-    name: 'Read Tenants',
-    slugedName: SlugedNamePermission.READ_TENANTS,
-    group: 'Tenant',
-  },
-  {
-    id: 22,
-    name: 'Read Tenant',
-    slugedName: SlugedNamePermission.READ_TENANT,
-    group: 'Tenant',
-  },
-  {
-    id: 23,
-    name: 'Create Tenant',
-    slugedName: SlugedNamePermission.CREATE_TENANT,
-    group: 'Tenant',
-  },
-  {
-    id: 24,
-    name: 'Update Tenant',
-    slugedName: SlugedNamePermission.UPDATE_TENANT,
-    group: 'Tenant',
-  },
-  {
-    id: 25,
-    name: 'Inactivate Tenant',
-    slugedName: SlugedNamePermission.INACTIVATE_TENANT,
-    group: 'Tenant',
-  },
-  {
-    id: 26,
-    name: 'Activate Tenant',
-    slugedName: SlugedNamePermission.ACTIVATE_TENANT,
-    group: 'Tenant',
-  },
-  {
-    id: 27,
-    name: 'Read Tenant Users',
-    slugedName: SlugedNamePermission.READ_TENANT_USERS,
-    group: 'Tenant',
-  },
-  {
-    id: 28,
-    name: 'Reset Tenant User Password',
-    slugedName: SlugedNamePermission.RESET_TENANT_USER_PASSWORD,
-    group: 'Tenant',
   },
 ];
