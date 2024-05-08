@@ -1,8 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Equal, In, Repository } from 'typeorm';
+import { DataSource, Equal, In, Repository } from 'typeorm';
 import { Role } from './entities/role.entity';
 import { BaseService } from 'src/common/services/base.service';
 import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
@@ -11,17 +10,21 @@ import { RolePermissionsDto } from './dto/role-permissions.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { responsePaginateData } from 'src/common/utils';
+import { TENANT_DATA_SOURCE } from 'src/tenants/tenants.provider';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class RolesService extends BaseService {
-  constructor(
-    @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>,
+  private readonly roleRepository: Repository<Role>;
+  private readonly permissionRepository: Repository<Permission>;
 
-    @InjectRepository(Permission)
-    private readonly permissionRepository: Repository<Permission>,
+  constructor(
+    @Inject(TENANT_DATA_SOURCE)
+    private readonly dataSource: DataSource,
   ) {
     super();
+
+    this.roleRepository = this.dataSource.getRepository(Role);
+    this.permissionRepository = this.dataSource.getRepository(Permission);
   }
 
   async create(createRoleDto: CreateRoleDto): Promise<ResponseCustom<Role>> {

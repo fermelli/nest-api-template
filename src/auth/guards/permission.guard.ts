@@ -1,10 +1,15 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  Scope,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { SlugedNamePermission } from '../enums/sluged-name-permission.enum';
 import { PERMISSION_KEY } from '../decorators/permission.decorator';
 import { UsersService } from 'src/users/users.service';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class PermissionGuard implements CanActivate {
   constructor(
     private reflector: Reflector,

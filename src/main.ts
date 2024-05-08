@@ -8,8 +8,6 @@ import { ResponseCustomInterceptor } from './app/interceptors/response-custom.in
 import { HttpExceptionFilter } from './app/filters/http-exception.filter';
 import corsConfig from './app/config/cors.config';
 import { useContainer } from 'class-validator';
-import { DataSource } from 'typeorm';
-import { Seeder } from './database/seeders/seeder';
 
 async function bootstrap() {
   const logger = new Logger('Main');
@@ -17,7 +15,6 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT', 3000);
   const host = configService.get<string>('HOST', 'localhost');
-  const dataSource: DataSource = app.get(DataSource);
 
   app.setGlobalPrefix('api');
 
@@ -33,8 +30,6 @@ async function bootstrap() {
   app.enableCors(corsConfig(configService));
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-
-  await Seeder.run(dataSource, configService);
 
   await app.listen(port, host, () => {
     logger.log(`Server is running on ${host}:${port}`);

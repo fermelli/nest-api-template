@@ -14,6 +14,7 @@ import { UsersService } from 'src/users/users.service';
 import { Role } from 'src/roles/entities/role.entity';
 import { Permission } from 'src/permissions/entities/permission.entity';
 import { PermissionGuard } from './guards/permission.guard';
+import { TenantsModule } from 'src/tenants/tenants.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { PermissionGuard } from './guards/permission.guard';
       useFactory: jwtConfig,
       inject: [ConfigService],
     }),
+    TenantsModule,
   ],
   controllers: [AuthController],
   providers: [

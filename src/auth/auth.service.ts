@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Scope, UnauthorizedException } from '@nestjs/common';
 import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
 import { BaseService } from 'src/common/services/base.service';
 import { User } from 'src/users/entities/user.entity';
@@ -11,7 +11,7 @@ import { compareSync, hashSync } from 'bcrypt';
 import { Me } from './entities/me.entity';
 import { SignInDto } from './dto/sign-in.dto';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class AuthService extends BaseService {
   constructor(
     private readonly usersService: UsersService,

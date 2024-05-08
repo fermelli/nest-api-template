@@ -1,0 +1,698 @@
+{
+	"info": {
+		"_postman_id": "5153eed1-de70-4240-83ed-111c52890f0d",
+		"name": "Nest API Template (Tenants)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8046053"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{$randomUserName}}\",\r\n   \"email\": \"{{$randomEmail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_api}}/users",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAll Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/users?page=1&limit=20&withDeleted=true",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								},
+								{
+									"key": "withDeleted",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindOne User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/users/1",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/users/22",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"users",
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SoftRemove User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/users/2/soft",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"soft"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restore User",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/users/2/restore",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"restore"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findOneByEmail User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"Brenda.Roob56@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_api}}/users/by-email",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"users",
+								"by-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AssignRoles User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rolesIds\": [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_api}}/users/1/assign-roles",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"assign-roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AssignPermissions User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"permissionsIds\": [\r\n        1,\r\n        2,\r\n        3,\r\n        4,\r\n        5,\r\n        6,\r\n        7,\r\n        8,\r\n        9,\r\n        10,\r\n        11,\r\n        12,\r\n        13,\r\n        14,\r\n        15,\r\n        16,\r\n        17,\r\n        18,\r\n        19,\r\n        20,\r\n        21\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_api}}/users/1/assign-permissions",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"assign-permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAllPermissions User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/users/1/all-permissions",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"all-permissions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{$randomUserName}}\",\r\n   \"email\": \"{{$randomEmail}}\",\r\n   \"password\": \"Password.123\",\r\n   \"passwordConfirmation\": \"Password.123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_api}}/auth/sign-up",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"auth",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignIn",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_api}}/auth/sign-in",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"auth",
+								"sign-in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/auth/me",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Create Role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomWord}}\",\r\n    \"description\": \"{{$randomWords}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_api}}/roles",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAll Roles",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/roles?page=1&limit=10",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"roles"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindOne Role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/roles/1",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Role",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_api}}/roles/1",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Role",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/roles/1",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AsiggnPermissions Role",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomInt = () =>  Math.floor(Math.random() * 30);\r",
+									"randomInt1 = randomInt();\r",
+									"randomInt2 = randomInt();\r",
+									"randomInt3 = randomInt();\r",
+									"randomInt4 = randomInt();\r",
+									"randomInt5 = randomInt();\r",
+									"\r",
+									"pm.globals.set('randomInt1', randomInt1);\r",
+									"pm.globals.set('randomInt2', randomInt2);\r",
+									"pm.globals.set('randomInt3', randomInt3);\r",
+									"pm.globals.set('randomInt4', randomInt4);\r",
+									"pm.globals.set('randomInt5', randomInt5);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"permissionsIds\": [\r\n        {{randomInt1}},\r\n        {{randomInt2}},\r\n        {{randomInt3}},\r\n        {{randomInt4}},\r\n        {{randomInt5}}\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_api}}/roles/10/assign-permissions",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"roles",
+								"10",
+								"assign-permissions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permissions",
+			"item": [
+				{
+					"name": "FindAll Permissions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/permissions?page=1&limit=10",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"permissions"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindOne Permission",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/permissions/1",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"permissions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"const xTenantId = pm.collectionVariables.get(\"x_tenant_id\");",
+					"const URL_API = pm.collectionVariables.get(\"url_api\");",
+					"const AUTH_PATHS = {",
+					"\tme: \"/auth/me\",",
+					"\tsignIn: \"/auth/sign-in\",",
+					"\tsignUp: \"/auth/sign-up\",",
+					"};",
+					"",
+					"pm.request.addHeader({ key: \"X-Tenant-Id\", value: xTenantId });",
+					"",
+					"const signInRequest = () => {",
+					"\tconst email = pm.collectionVariables.get(\"email\");",
+					"\tconst password = pm.collectionVariables.get(\"password\");",
+					"",
+					"\tpm.sendRequest(",
+					"\t\t{",
+					"\t\t\turl: `${URL_API}${AUTH_PATHS.signIn}`,",
+					"\t\t\tmethod: \"POST\",",
+					"\t\t\theader: {",
+					"\t\t\t\t\"Content-Type\": \"application/json\",",
+					"\t\t\t\t\"X-Requested-With\": \"XMLHttpRequest\",",
+					"                \"X-Tenant-Id\": xTenantId,",
+					"\t\t\t},",
+					"\t\t\tbody: {",
+					"\t\t\t\tmode: \"raw\",",
+					"\t\t\t\traw: JSON.stringify({",
+					"\t\t\t\t\temail: email,",
+					"\t\t\t\t\tpassword: password,",
+					"\t\t\t\t}),",
+					"\t\t\t},",
+					"\t\t},",
+					"\t\t(err, res) => {",
+					"\t\t\tconsole.log({ nameRequest: 'meRequest', res, err });",
+					"",
+					"\t\t\tif (res.code === 404) {",
+					"\t\t\t\tconsole.log(\"Usuario no existe\");",
+					"\t\t\t} else if (res.code === 401) {",
+					"\t\t\t\tconsole.log(\"Usuario sin autorizacion\");",
+					"\t\t\t} else {",
+					"\t\t\t\tconst token = res.json().data.accessToken;",
+					"",
+					"\t\t\t\tpm.collectionVariables.set(\"token\", token);",
+					"\t\t\t}",
+					"\t\t}",
+					"\t);",
+					"};",
+					"",
+					"const meRequest = () => {",
+					"\tconst token = pm.collectionVariables.get(\"token\");",
+					"",
+					"\tpm.sendRequest(",
+					"\t\t{",
+					"\t\t\turl: `${URL_API}${AUTH_PATHS.me}`,",
+					"\t\t\tmethod: \"GET\",",
+					"\t\t\theader: {",
+					"\t\t\t\t\"Content-Type\": \"application/json\",",
+					"\t\t\t\t\"X-Requested-With\": \"XMLHttpRequest\",",
+					"                \"X-Tenant-Id\": xTenantId,",
+					"\t\t\t\tAuthorization: `Bearer ${token}`,",
+					"\t\t\t},",
+					"\t\t},",
+					"\t\t(err, res) => {",
+					"\t\t\tconsole.log({ nameRequest: 'meRequest', res, err });",
+					"",
+					"\t\t\tif (res.code === 401) {",
+					"\t\t\t\tsignInRequest();",
+					"\t\t\t}",
+					"\t\t}",
+					"\t);",
+					"};",
+					"",
+					"const main = () => {",
+					"\tconst currentPath = pm.request.url.getPath();",
+					"\tconst isAuthPath = Object.values(AUTH_PATHS).includes(currentPath);",
+					"",
+					"\tif (!isAuthPath) {",
+					"\t\tmeRequest();",
+					"\t}",
+					"};",
+					"",
+					"main();"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url_api",
+			"value": "http://localhost:3002/api",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": "super-admin@nest-api-template.com",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "Demo@2024",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "x_tenant_id",
+			"value": "5c223214-fcee-4511-a372-fb1d1f518cba",
+			"type": "string"
+		}
+	]
+}

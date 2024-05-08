@@ -7,9 +7,13 @@ import { Permission } from 'src/permissions/entities/permission.entity';
 import { RolePermission } from './entities/role-permission.entity';
 import { ExistsConstraint } from 'src/common/decorators/exists.decorator';
 import { UniqueConstraint } from 'src/common/decorators/unique.decorator';
+import { TenantsModule } from 'src/tenants/tenants.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Role, Permission, RolePermission])],
+  imports: [
+    TypeOrmModule.forFeature([Role, Permission, RolePermission]),
+    TenantsModule,
+  ],
   controllers: [RolesController],
   providers: [RolesService, ExistsConstraint, UniqueConstraint],
 })

@@ -1,12 +1,13 @@
 import {
+  Inject,
   Injectable,
   NotFoundException,
+  Scope,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/common/services/base.service';
 import { User } from './entities/user.entity';
-import { Equal, In, Repository } from 'typeorm';
+import { DataSource, Equal, In, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -22,22 +23,25 @@ import {
   mergeDataByPropertyAndOrder,
   responsePaginateData,
 } from 'src/common/utils';
+import { TENANT_DATA_SOURCE } from 'src/tenants/tenants.provider';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class UsersService extends BaseService {
+  private readonly userRepository: Repository<User>;
+  private readonly roleRepository: Repository<Role>;
+  private readonly permissionRepository: Repository<Permission>;
+
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-
-    @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>,
-
-    @InjectRepository(Permission)
-    private readonly permissionRepository: Repository<Permission>,
+    @Inject(TENANT_DATA_SOURCE)
+    private readonly dataSource: DataSource,
 
     private readonly configService: ConfigService,
   ) {
     super();
+
+    this.userRepository = this.dataSource.getRepository(User);
+    this.roleRepository = this.dataSource.getRepository(Role);
+    this.permissionRepository = this.dataSource.getRepository(Permission);
   }
 
   async create(createUserDto: CreateUserDto): Promise<ResponseCustom<User>> {
