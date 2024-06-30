@@ -55,4 +55,25 @@ export class PermissionsService extends BaseService {
       data: permission,
     };
   }
+
+  async findAllGrouped(): Promise<
+    ResponseCustom<Record<string, Permission[]>>
+  > {
+    const permissions = await this.permissionRepository.find();
+
+    const permissionsGrouped = permissions.reduce((acc, permission) => {
+      if (!acc[permission.group]) {
+        acc[permission.group] = [];
+      }
+
+      acc[permission.group].push(permission);
+
+      return acc;
+    }, {} as Record<string, Permission[]>);
+
+    return {
+      message: 'Permissions grouped retrieved successfully',
+      data: permissionsGrouped,
+    };
+  }
 }

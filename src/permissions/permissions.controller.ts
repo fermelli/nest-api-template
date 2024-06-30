@@ -15,6 +15,12 @@ export class PermissionsController {
     return this.permissionsService.findAll(query);
   }
 
+  @Get('grouped')
+  @Permission(SlugedNamePermission.READ_PERMISSIONS)
+  findAllGrouped() {
+    return this.permissionsService.findAllGrouped();
+  }
+
   @Get(':id')
   @Permission(SlugedNamePermission.READ_PERMISSION)
   findOne(@Param() { id }: FindOneParams) {
