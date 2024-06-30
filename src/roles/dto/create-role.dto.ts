@@ -6,7 +6,7 @@ export class CreateRoleDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(64)
-  @Unique({ entity: Role, column: 'name' })
+  @Unique({ entity: Role })
   name: string;
 
   @IsOptional()

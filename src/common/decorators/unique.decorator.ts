@@ -10,7 +10,6 @@ import { DataSource, EntityTarget, Equal } from 'typeorm';
 
 interface UniqueProperties {
   entity: EntityTarget<any>;
-  column: string;
 }
 
 @ValidatorConstraint({ async: true })
@@ -20,10 +19,11 @@ export class UniqueConstraint implements ValidatorConstraintInterface {
 
   async validate(value: any, args?: ValidationArguments): Promise<boolean> {
     const [constraints] = args.constraints;
-    const { entity, column } = constraints as UniqueProperties;
+    const { entity } = constraints as UniqueProperties;
+    const { property } = args;
     const repository = this.dataSource.getRepository(entity);
     const result = await repository.findOne({
-      where: { [column]: Equal(value) },
+      where: { [property]: Equal(value) },
     });
 
     return result == null;
