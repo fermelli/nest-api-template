@@ -1,6 +1,15 @@
-import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+  ValidateNested,
+} from 'class-validator';
 import { Unique } from 'src/common/decorators/unique.decorator';
 import { Role } from '../entities/role.entity';
+import { PermissionsDto } from 'src/permissions/dtos/permissions.dto';
+import { Type } from 'class-transformer';
 
 export class CreateRoleDto {
   @IsNotEmpty()
@@ -13,4 +22,12 @@ export class CreateRoleDto {
   @IsString()
   @MaxLength(255)
   description?: string;
+
+  @Type(() => PermissionsDto)
+  @IsNotEmpty()
+  @IsArray()
+  @ValidateNested({
+    each: true,
+  })
+  permissions: PermissionsDto[];
 }
