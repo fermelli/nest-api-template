@@ -80,6 +80,9 @@ export class UsersService extends BaseService {
         },
         withDeleted,
         resourceName: 'Users',
+        order: {
+          id: 'DESC',
+        },
       },
       {
         limit,
