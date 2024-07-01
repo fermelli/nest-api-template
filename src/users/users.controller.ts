@@ -18,6 +18,7 @@ import { UserRolesDto } from './dto/user-roles.dto';
 import { UserPermissionsDto } from './dto/user-permissions.dto';
 import { Permission } from 'src/auth/decorators/permission.decorator';
 import { SlugedNamePermission } from 'src/auth/enums/sluged-name-permission.enum';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -45,6 +46,12 @@ export class UsersController {
   @Permission(SlugedNamePermission.READ_USER)
   findOne(@Param() { id }: FindOneParams, @Query() query: WithDeletedDto) {
     return this.usersService.findOne(id, query);
+  }
+
+  @Patch(':id')
+  @Permission(SlugedNamePermission.UPDATE_USER)
+  update(@Param() { id }: FindOneParams, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')

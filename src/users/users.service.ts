@@ -22,6 +22,7 @@ import {
   mergeDataByPropertyAndOrder,
   responsePaginateData,
 } from 'src/common/utils';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService extends BaseService {
@@ -117,6 +118,31 @@ export class UsersService extends BaseService {
       message: 'User retrieved successfully',
       data: user,
     };
+  }
+
+  async update(
+    id: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<ResponseCustom<User>> {
+    const user = await this.userRepository.preload({
+      id,
+      ...updateUserDto,
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    try {
+      await this.userRepository.save(user);
+
+      return {
+        message: 'User updated successfully',
+        data: user,
+      };
+    } catch (error) {
+      this.handleErrors(error);
+    }
   }
 
   async findOneByEmail(email: string): Promise<ResponseCustom<User>> {
