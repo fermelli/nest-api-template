@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2a3b2d51-f988-4be9-86f2-8738471b762a",
+		"_postman_id": "8455b2a2-570c-46d8-9703-38b9e8b1d596",
 		"name": "Nest API Template",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "8046053"
@@ -72,13 +72,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_api}}/users/1",
+							"raw": "{{url_api}}/users/2?withDeleted=true",
 							"host": [
 								"{{url_api}}"
 							],
 							"path": [
 								"users",
-								"1"
+								"2"
+							],
+							"query": [
+								{
+									"key": "withDeleted",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -90,13 +96,19 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url_api}}/users/22",
+							"raw": "{{url_api}}/users/22?withDeleted=true",
 							"host": [
 								"{{url_api}}"
 							],
 							"path": [
 								"users",
 								"22"
+							],
+							"query": [
+								{
+									"key": "withDeleted",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -240,6 +252,33 @@
 								"users",
 								"1",
 								"all-permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update User",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"roles\": [\r\n        {\r\n            \"id\": 1\r\n        },\r\n        {\r\n            \"id\": 2\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_api}}/users/3",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"users",
+								"3"
 							]
 						}
 					},
@@ -537,6 +576,24 @@
 					"response": []
 				},
 				{
+					"name": "findAllGrouped Permissions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/permissions/grouped",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"permissions",
+								"grouped"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "FindOne Permission",
 					"request": {
 						"method": "GET",
@@ -680,7 +737,7 @@
 		},
 		{
 			"key": "token",
-			"value": ""
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlN1cGVyIEFkbWluIiwiZW1haWwiOiJzdXBlci1hZG1pbkBuZXN0LWFwaS10ZW1wbGF0ZS5jb20iLCJjcmVhdGVkQXQiOiIyMDI0LTA0LTMwVDAzOjQwOjQ1LjcxMloiLCJ1cGRhdGVkQXQiOiIyMDI0LTA2LTA2VDAxOjIzOjA1LjAwMFoiLCJpYXQiOjE3MTc2MzczNjUsImV4cCI6MTcxNzY1MTc2NX0.1puL8WjlOhXQ446evP6nynoVed8UZAI8abaM75mrf2E"
 		}
 	]
 }

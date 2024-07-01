@@ -123,15 +123,19 @@ export class UsersService extends BaseService {
   async update(
     id: number,
     updateUserDto: UpdateUserDto,
+    query: WithDeletedDto,
   ): Promise<ResponseCustom<User>> {
-    const user = await this.userRepository.preload({
-      id,
-      ...updateUserDto,
+    const { withDeleted } = query;
+    const user = await this.userRepository.findOne({
+      where: { id: Equal(id) },
+      withDeleted,
     });
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
+
+    Object.assign(user, updateUserDto);
 
     try {
       await this.userRepository.save(user);

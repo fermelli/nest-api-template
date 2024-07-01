@@ -50,8 +50,12 @@ export class UsersController {
 
   @Patch(':id')
   @Permission(SlugedNamePermission.UPDATE_USER)
-  update(@Param() { id }: FindOneParams, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  update(
+    @Param() { id }: FindOneParams,
+    @Body() updateUserDto: UpdateUserDto,
+    @Query() query: WithDeletedDto,
+  ) {
+    return this.usersService.update(id, updateUserDto, query);
   }
 
   @Delete(':id')
