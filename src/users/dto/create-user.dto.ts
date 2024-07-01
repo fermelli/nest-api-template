@@ -8,6 +8,7 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
+import { PermissionsDto } from 'src/permissions/dtos/permissions.dto';
 import { RolesDto } from 'src/roles/dto/roles.dto';
 
 export class CreateUserDto {
@@ -29,4 +30,12 @@ export class CreateUserDto {
     each: true,
   })
   roles: RolesDto[];
+
+  @Type(() => PermissionsDto)
+  @IsNotEmpty()
+  @IsArray()
+  @ValidateNested({
+    each: true,
+  })
+  permissions: PermissionsDto[];
 }
