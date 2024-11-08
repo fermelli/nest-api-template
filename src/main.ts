@@ -17,6 +17,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT', 3000);
   const host = configService.get<string>('HOST', 'localhost');
+  const env = configService.get<string>('ENV', 'development');
   const dataSource: DataSource = app.get(DataSource);
 
   app.setGlobalPrefix('api');
@@ -34,7 +35,9 @@ async function bootstrap() {
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
-  await Seeder.run(dataSource, configService);
+  if (env === 'development') {
+    await Seeder.run(dataSource, configService);
+  }
 
   await app.listen(port, host, () => {
     logger.log(`Server is running on ${host}:${port}`);
