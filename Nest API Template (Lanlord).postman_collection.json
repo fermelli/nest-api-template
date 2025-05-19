@@ -566,7 +566,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"superAdminName\": \"Super Admin\",\r\n    \"superAdminEmail\": \"super-admin@nest-api-template.com\",\r\n    \"poolSize\": 10,\r\n    \"vigency\": 6,\r\n    \"vigencyUnit\": \"months\"\r\n}",
+							"raw": "{\r\n    \"superAdminName\": \"Super Admin\",\r\n    \"superAdminEmail\": \"super-admin@nest-api-template.com\",\r\n    \"poolSize\": 10,\r\n    \"vigency\": 12,\r\n    \"vigencyUnit\": \"months\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
