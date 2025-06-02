@@ -57,15 +57,12 @@ export class Seeder {
     const userRepository = dataSource.getRepository(User);
     const defaultName = configService.get<string>(
       'SUPER_ADMIN_USER_DEFAULT_NAME',
-      'Super Admin',
     );
     const defaultEmail = configService.get<string>(
       'SUPER_ADMIN_USER_DEFAULT_EMAIL',
-      'super-admin@nest-api-template.com',
     );
     const defaultPassword = configService.get<string>(
       'SUPER_ADMIN_USER_DEFAULT_PASSWORD',
-      'NestAPISuperAdmin@2023',
     );
     const superAdminUser = userRepository.create({
       id: 1,

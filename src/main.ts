@@ -10,14 +10,15 @@ import corsConfig from './app/config/cors.config';
 import { useContainer } from 'class-validator';
 import { DataSource } from 'typeorm';
 import { Seeder } from './database/seeders/seeder';
+import { Environment } from './app/enviroment/environment-variables';
 
 async function bootstrap() {
   const logger = new Logger('Main');
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('PORT', 3000);
-  const host = configService.get<string>('HOST', 'localhost');
-  const env = configService.get<string>('NODE_ENV', 'development');
+  const port = configService.get<number>('PORT');
+  const host = configService.get<string>('HOST');
+  const env = configService.get<string>('NODE_ENV');
   const dataSource: DataSource = app.get(DataSource);
 
   app.setGlobalPrefix('api');
@@ -35,7 +36,7 @@ async function bootstrap() {
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
-  if (env === 'development') {
+  if (env === Environment.DEVELOPMENT) {
     await Seeder.run(dataSource, configService);
   }
 

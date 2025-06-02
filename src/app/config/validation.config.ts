@@ -5,7 +5,7 @@ import { Environment } from '../enviroment/environment-variables';
 
 export default (configService: ConfigService): ValidationPipeOptions => ({
   enableDebugMessages:
-    configService.get<string>('NODE_ENV', 'development') === 'development',
+    configService.get<Environment>('NODE_ENV') === Environment.DEVELOPMENT,
   skipMissingProperties: false,
   whitelist: true,
   transform: true,

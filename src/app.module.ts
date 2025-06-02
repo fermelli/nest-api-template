@@ -8,11 +8,13 @@ import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import databaseConfig from './app/config/database.config';
+import validate from './app/enviroment/enviroment.validation';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       expandVariables: true,
+      validate,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

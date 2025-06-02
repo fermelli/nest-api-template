@@ -44,7 +44,6 @@ export class UsersService extends BaseService {
   async create(createUserDto: CreateUserDto): Promise<ResponseCustom<User>> {
     const defaultPassword = this.configService.get<string>(
       'USER_DEFAULT_PASSWORD',
-      'NestAPI@2023',
     );
 
     try {
