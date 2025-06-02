@@ -17,7 +17,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT', 3000);
   const host = configService.get<string>('HOST', 'localhost');
-  const env = configService.get<string>('ENV', 'development');
+  const env = configService.get<string>('NODE_ENV', 'development');
   const dataSource: DataSource = app.get(DataSource);
 
   app.setGlobalPrefix('api');
