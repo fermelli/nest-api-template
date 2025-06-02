@@ -10,7 +10,7 @@ export default async (
   username: configService.get<string>('DATABASE_USERNAME'),
   password: configService.get<string>('DATABASE_PASSWORD'),
   database: configService.get<string>('DATABASE_NAME'),
-  synchronize: configService.get<boolean>('DATABASE_SYNCHRONIZE'),
+  synchronize: false,
   autoLoadEntities: configService.get<boolean>('DATABASE_AUTO_LOAD_ENTITIES'),
   logging: configService.get<boolean>('DATABASE_LOGGING'),
   migrations: ['dist/database/migrations/*.{ts,js}'],

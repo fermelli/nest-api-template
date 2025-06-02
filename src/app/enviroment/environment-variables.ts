@@ -70,11 +70,6 @@ export class EnvironmentVariables {
   @Transform(transformToBoolean)
   @IsNotEmpty()
   @IsBoolean()
-  DATABASE_SYNCHRONIZE: boolean;
-
-  @Transform(transformToBoolean)
-  @IsNotEmpty()
-  @IsBoolean()
   DATABASE_AUTO_LOAD_ENTITIES: boolean;
 
   @Transform(transformToBoolean)
