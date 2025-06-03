@@ -19,7 +19,7 @@ export async function responsePaginateData<T = any>(
 ): Promise<ResponseCustom<Pagination<T>>> {
   const { resourceName } = options;
   const { limit, page } = paginationOptions;
-  const [roles, count] = await repository.findAndCount({
+  const [items, count] = await repository.findAndCount({
     ...options,
     take: limit,
     skip: limit * (page - 1),
@@ -28,10 +28,10 @@ export async function responsePaginateData<T = any>(
   return {
     message: `${resourceName} retrieved successfully`,
     data: {
-      items: roles,
+      items,
       meta: {
         totalItems: count,
-        itemCount: roles.length,
+        itemCount: items.length,
         itemsPerPage: limit,
         totalPages: Math.ceil(count / limit),
         currentPage: page,
