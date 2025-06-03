@@ -3,6 +3,7 @@ import {
   IsArray,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   MaxLength,
   MinLength,
@@ -24,18 +25,18 @@ export class CreateUserDto {
   email: string;
 
   @Type(() => RolesDto)
-  @IsNotEmpty()
+  @IsOptional()
   @IsArray()
   @ValidateNested({
     each: true,
   })
-  roles: RolesDto[];
+  roles?: RolesDto[];
 
   @Type(() => PermissionsDto)
-  @IsNotEmpty()
+  @IsOptional()
   @IsArray()
   @ValidateNested({
     each: true,
   })
-  permissions: PermissionsDto[];
+  permissions?: PermissionsDto[];
 }
