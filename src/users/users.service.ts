@@ -93,11 +93,11 @@ export class UsersService extends BaseService {
     return response;
   }
 
-  async findOne(
+  private async findById(
     id: number,
     query: WithDeletedDto,
     loadRelations = true,
-  ): Promise<ResponseCustom<User>> {
+  ): Promise<User> {
     const { withDeleted } = query;
     const relations: FindOptionsRelations<User> = loadRelations
       ? {
@@ -117,6 +117,16 @@ export class UsersService extends BaseService {
       throw new NotFoundException('User not found');
     }
 
+    return user;
+  }
+
+  async findOne(
+    id: number,
+    query: WithDeletedDto,
+    loadRelations = true,
+  ): Promise<ResponseCustom<User>> {
+    const user = await this.findById(id, query, loadRelations);
+
     return {
       message: 'User retrieved successfully',
       data: user,
@@ -128,15 +138,7 @@ export class UsersService extends BaseService {
     updateUserDto: UpdateUserDto,
     query: WithDeletedDto,
   ): Promise<ResponseCustom<User>> {
-    const { withDeleted } = query;
-    const user = await this.userRepository.findOne({
-      where: { id: Equal(id) },
-      withDeleted,
-    });
-
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+    const user = await this.findById(id, query, false);
 
     Object.assign(user, updateUserDto);
 
