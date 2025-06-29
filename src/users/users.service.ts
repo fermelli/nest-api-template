@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/common/services/base.service';
 import { User } from './entities/user.entity';
-import { Equal, In, Repository } from 'typeorm';
+import { Equal, FindOptionsRelations, In, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -96,16 +96,20 @@ export class UsersService extends BaseService {
   async findOne(
     id: number,
     query: WithDeletedDto,
+    loadRelations = true,
   ): Promise<ResponseCustom<User>> {
     const { withDeleted } = query;
+    const relations: FindOptionsRelations<User> = loadRelations
+      ? {
+          roles: {
+            permissions: true,
+          },
+          permissions: true,
+        }
+      : {};
     const user = await this.userRepository.findOne({
       where: { id: Equal(id) },
-      relations: {
-        roles: {
-          permissions: true,
-        },
-        permissions: true,
-      },
+      relations,
       withDeleted,
     });
 
