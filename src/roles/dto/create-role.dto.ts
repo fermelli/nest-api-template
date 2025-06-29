@@ -24,10 +24,10 @@ export class CreateRoleDto {
   description?: string;
 
   @Type(() => PermissionsDto)
-  @IsNotEmpty()
+  @IsOptional()
   @IsArray()
   @ValidateNested({
     each: true,
   })
-  permissions: PermissionsDto[];
+  permissions?: PermissionsDto[];
 }
