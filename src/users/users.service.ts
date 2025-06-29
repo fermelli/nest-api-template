@@ -187,7 +187,7 @@ export class UsersService extends BaseService {
     id: number,
     query: WithDeletedDto,
   ): Promise<ResponseCustom<User>> {
-    const user = (await this.findOne(id, query)).data;
+    const user = await this.findById(id, query, false);
 
     try {
       await this.userRepository.remove(user);
@@ -202,7 +202,7 @@ export class UsersService extends BaseService {
   }
 
   async softRemove(id: number): Promise<ResponseCustom<User>> {
-    const user = (await this.findOne(id, { withDeleted: false })).data;
+    const user = await this.findById(id, { withDeleted: false }, false);
 
     try {
       await this.userRepository.softRemove(user);
@@ -217,11 +217,7 @@ export class UsersService extends BaseService {
   }
 
   async restore(id: number): Promise<ResponseCustom<User>> {
-    const user = (await this.findOne(id, { withDeleted: true })).data;
-
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+    const user = await this.findById(id, { withDeleted: true }, false);
 
     try {
       await this.userRepository.recover(user);
@@ -239,7 +235,7 @@ export class UsersService extends BaseService {
     id: number,
     { rolesIds }: UserRolesDto,
   ): Promise<ResponseCustom<User>> {
-    const user = (await this.findOne(id, { withDeleted: false })).data;
+    const user = await this.findById(id, { withDeleted: false }, true);
     const queryRunner =
       this.userRepository.manager.connection.createQueryRunner();
 
@@ -273,7 +269,7 @@ export class UsersService extends BaseService {
     id: number,
     { permissionsIds }: UserPermissionsDto,
   ): Promise<ResponseCustom<User>> {
-    const user = (await this.findOne(id, { withDeleted: false })).data;
+    const user = await this.findById(id, { withDeleted: false }, true);
     const queryRunner =
       this.userRepository.manager.connection.createQueryRunner();
 
@@ -304,19 +300,7 @@ export class UsersService extends BaseService {
   }
 
   async findAllPermissions(id: number): Promise<ResponseCustom<Permission[]>> {
-    const user = await this.userRepository.findOne({
-      where: { id: Equal(id) },
-      relations: {
-        roles: {
-          permissions: true,
-        },
-        permissions: true,
-      },
-    });
-
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+    const user = await this.findById(id, { withDeleted: false }, true);
 
     const permissionsFromRoles = user.roles.reduce(
       (acc, role) => [...acc, ...role.permissions],
