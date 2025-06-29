@@ -29,6 +29,12 @@ export class BaseService {
       throw new BadRequestException('Duplicated value');
     }
 
+    if (error.code === 'ER_NO_REFERENCED_ROW_2') {
+      throw new BadRequestException(
+        'Cannot add or update a child row: a foreign key constraint fails',
+      );
+    }
+
     if (error.code === 'ECONNREFUSED') {
       throw new InternalServerErrorException('Database connection error');
     }
