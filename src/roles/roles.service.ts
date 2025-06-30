@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Equal, In, Repository } from 'typeorm';
+import { Equal, FindOptionsRelations, In, Repository } from 'typeorm';
 import { Role } from './entities/role.entity';
 import { BaseService } from 'src/common/services/base.service';
 import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
@@ -60,17 +60,26 @@ export class RolesService extends BaseService {
     return response;
   }
 
-  async findOne(id: number): Promise<ResponseCustom<Role>> {
+  private async findById(id: number, loadRelations: boolean): Promise<Role> {
+    const relations: FindOptionsRelations<Role> = loadRelations
+      ? {
+          permissions: true,
+        }
+      : {};
     const role = await this.roleRepository.findOne({
       where: { id: Equal(id) },
-      relations: {
-        permissions: true,
-      },
+      relations,
     });
 
     if (!role) {
       throw new NotFoundException('Role not found');
     }
+
+    return role;
+  }
+
+  async findOne(id: number): Promise<ResponseCustom<Role>> {
+    const role = await this.findById(id, true);
 
     return {
       message: 'Role retrieved successfully',
@@ -104,7 +113,7 @@ export class RolesService extends BaseService {
   }
 
   async remove(id: number): Promise<ResponseCustom<Role>> {
-    const role = (await this.findOne(id)).data;
+    const role = await this.findById(id, false);
 
     try {
       await this.roleRepository.remove(role);
@@ -122,7 +131,7 @@ export class RolesService extends BaseService {
     id: number,
     { permissionsIds }: RolePermissionsDto,
   ): Promise<ResponseCustom<Role>> {
-    const role = (await this.findOne(id)).data;
+    const role = await this.findById(id, true);
     const queryRunner =
       this.roleRepository.manager.connection.createQueryRunner();
 
