@@ -142,10 +142,6 @@ export class RolesService extends BaseService {
       where: { id: In(permissionsIds) },
     });
 
-    if (permissions.length !== permissionsIds.length) {
-      throw new NotFoundException('Some permissions not found');
-    }
-
     try {
       role.permissions = permissions;
 
