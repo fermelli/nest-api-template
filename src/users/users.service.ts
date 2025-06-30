@@ -96,7 +96,7 @@ export class UsersService extends BaseService {
   private async findById(
     id: number,
     query: WithDeletedDto,
-    loadRelations = true,
+    loadRelations: boolean,
   ): Promise<User> {
     const { withDeleted } = query;
     const relations: FindOptionsRelations<User> = loadRelations
@@ -123,9 +123,8 @@ export class UsersService extends BaseService {
   async findOne(
     id: number,
     query: WithDeletedDto,
-    loadRelations = true,
   ): Promise<ResponseCustom<User>> {
-    const user = await this.findById(id, query, loadRelations);
+    const user = await this.findById(id, query, true);
 
     return {
       message: 'User retrieved successfully',
