@@ -9,7 +9,6 @@ import { User } from './entities/user.entity';
 import { Equal, FindOptionsRelations, In, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
-import { Pagination } from 'nestjs-typeorm-paginate';
 import { PaginationAndWithDeletedDto } from 'src/common/dtos/pagination-and-with-deleted.dto';
 import { WithDeletedDto } from 'src/common/dtos/with-deleted.dto';
 import { ConfigService } from '@nestjs/config';
@@ -67,7 +66,7 @@ export class UsersService extends BaseService {
 
   async findAll(
     query: PaginationAndWithDeletedDto,
-  ): Promise<ResponseCustom<Pagination<User>>> {
+  ): Promise<ResponseCustom<User[]>> {
     const { withDeleted, limit, page } = query;
     const response = await responsePaginateData<User>(
       this.userRepository,

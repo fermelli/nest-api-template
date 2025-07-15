@@ -4,7 +4,6 @@ import { Permission } from './entities/permission.entity';
 import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Equal, Repository } from 'typeorm';
-import { Pagination } from 'nestjs-typeorm-paginate';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { responsePaginateData } from 'src/common/utils';
 
@@ -17,9 +16,7 @@ export class PermissionsService extends BaseService {
     super();
   }
 
-  async findAll(
-    query: PaginationDto,
-  ): Promise<ResponseCustom<Pagination<Permission>>> {
+  async findAll(query: PaginationDto): Promise<ResponseCustom<Permission[]>> {
     const { limit, page } = query;
     const response = await responsePaginateData<Permission>(
       this.permissionRepository,

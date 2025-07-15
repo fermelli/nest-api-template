@@ -1,4 +1,3 @@
-import { Pagination } from 'nestjs-typeorm-paginate';
 import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
 import { FindManyOptions, Repository } from 'typeorm';
 
@@ -16,7 +15,7 @@ export async function responsePaginateData<T = any>(
   repository: Repository<T>,
   options: FindCustomOptions<T>,
   paginationOptions: paginationCustomOptions,
-): Promise<ResponseCustom<Pagination<T>>> {
+): Promise<ResponseCustom<T[]>> {
   const { resourceName } = options;
   const { limit, page } = paginationOptions;
   const [items, count] = await repository.findAndCount({
@@ -27,15 +26,13 @@ export async function responsePaginateData<T = any>(
 
   return {
     message: `${resourceName} retrieved successfully`,
-    data: {
-      items,
-      meta: {
-        totalItems: count,
-        itemCount: items.length,
-        itemsPerPage: limit,
-        totalPages: Math.ceil(count / limit),
-        currentPage: page,
-      },
+    data: items,
+    metadata: {
+      totalItems: count,
+      itemCount: items.length,
+      itemsPerPage: limit,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
     },
   };
 }

@@ -8,7 +8,6 @@ import { BaseService } from 'src/common/services/base.service';
 import { ResponseCustom } from 'src/app/interfaces/response-custom.interface';
 import { Permission } from 'src/permissions/entities/permission.entity';
 import { RolePermissionsDto } from './dto/role-permissions.dto';
-import { Pagination } from 'nestjs-typeorm-paginate';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { responsePaginateData } from 'src/common/utils';
 
@@ -39,9 +38,7 @@ export class RolesService extends BaseService {
     }
   }
 
-  async findAll(
-    query: PaginationDto,
-  ): Promise<ResponseCustom<Pagination<Role>>> {
+  async findAll(query: PaginationDto): Promise<ResponseCustom<Role[]>> {
     const { limit, page } = query;
     const response = await responsePaginateData<Role>(
       this.roleRepository,

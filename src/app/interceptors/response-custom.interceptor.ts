@@ -30,6 +30,7 @@ export class ResponseCustomInterceptor<T>
         const statusCode = response?.statusCode || HttpStatus.OK;
         const data = res?.data || null;
         const errors = res?.errors || null;
+        const metadata = res?.metadata || null;
         const path = getPath(requestUrl, data);
 
         return {
@@ -38,6 +39,7 @@ export class ResponseCustomInterceptor<T>
           data,
           path,
           errors,
+          metadata,
         };
       }),
     );
