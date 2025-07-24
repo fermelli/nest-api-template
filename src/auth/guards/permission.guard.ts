@@ -3,6 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { SlugedNamePermission } from '../enums/sluged-name-permission.enum';
 import { PERMISSION_KEY } from '../decorators/permission.decorator';
 import { UsersService } from 'src/users/users.service';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
@@ -22,7 +23,13 @@ export class PermissionGuard implements CanActivate {
       return Promise.resolve(true);
     }
 
-    const { user } = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest();
+    const user = request.user as User;
+
+    if (!user) {
+      return Promise.resolve(false);
+    }
+
     const permissions = (await this.usersService.findAllPermissions(user.id))
       .data;
 
