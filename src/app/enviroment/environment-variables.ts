@@ -6,7 +6,6 @@ import {
   IsIn,
   IsInt,
   IsNotEmpty,
-  IsNumber,
   IsString,
   IsStrongPassword,
   Max,
