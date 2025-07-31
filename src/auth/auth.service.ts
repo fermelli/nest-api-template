@@ -6,10 +6,11 @@ import { UsersService } from 'src/users/users.service';
 import { TokenAccessResponse } from './interfaces/acces-token-response.interface';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/sign-up-dto';
-import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { JwtPayload, UserJwtPayload } from './interfaces/jwt-payload.interface';
 import { compareSync, hashSync } from 'bcrypt';
 import { Me } from './entities/me.entity';
 import { SignInDto } from './dto/sign-in.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService extends BaseService {
@@ -17,6 +18,8 @@ export class AuthService extends BaseService {
     private readonly usersService: UsersService,
 
     private readonly jwtService: JwtService,
+
+    private readonly configService: ConfigService,
   ) {
     super();
   }
@@ -60,8 +63,13 @@ export class AuthService extends BaseService {
   }
 
   private async getJwtToken(
-    jwtPayload: JwtPayload,
+    userJwtPayload: UserJwtPayload,
   ): Promise<TokenAccessResponse> {
+    const jwtPayload: JwtPayload = {
+      ...userJwtPayload,
+      sub: userJwtPayload.id,
+      iss: this.configService.get<string>('JWT_ISSUER'),
+    };
     const payload = JSON.parse(JSON.stringify(jwtPayload));
     const accessToken = await this.jwtService.signAsync(payload);
 

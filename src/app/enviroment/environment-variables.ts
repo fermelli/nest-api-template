@@ -87,6 +87,10 @@ export class EnvironmentVariables {
 
   @IsNotEmpty()
   @IsString()
+  JWT_ISSUER: string;
+
+  @IsNotEmpty()
+  @IsString()
   @MinLength(32)
   JWT_SECRET: string;
 
