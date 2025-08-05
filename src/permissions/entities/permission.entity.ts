@@ -49,6 +49,7 @@ export class Permission {
     type: 'timestamp',
     nullable: false,
     default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
 
