@@ -1,6 +1,6 @@
 import { Entity, PrimaryColumn } from 'typeorm';
 
-@Entity('role_permission')
+@Entity({ name: 'role_permission' })
 export class RolePermission {
   @PrimaryColumn({ name: 'role_id', type: 'int', unsigned: true })
   roleId: number;
