@@ -59,16 +59,16 @@ $ docker compose up
 # Create a new migration
 
 # Yarn
-$ npm_config_migration_name=[nombre_de_la_migracion] yarn run migration:create
+$ npm_config_migration_name=[nombre_de_la_migracion] yarn migration:create
 
 # NPM (recommended)
 $ npm run migration:create --migration_name=[nombre_de_la_migracion]
 
 # Run the migrations
-$ yarn run migration:run
+$ yarn migration:run
 
 # Revert the migrations
-$ yarn run migration:revert
+$ yarn migration:revert
 ```
 
 ## Info
