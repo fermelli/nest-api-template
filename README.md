@@ -64,6 +64,14 @@ $ npm_config_migration_name=[nombre_de_la_migracion] yarn migration:create
 # NPM (recommended)
 $ npm run migration:create --migration_name=[nombre_de_la_migracion]
 
+# Generate a new migration based on the current state of the entities
+
+# Yarn
+$ npm_config_migration_name=[nombre_de_la_migracion] yarn migration:generate
+
+# NPM (recommended)
+$ npm run migration:generate --migration_name=[nombre_de_la_migracion]
+
 # Run the migrations
 $ yarn migration:run
 
