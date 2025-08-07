@@ -21,7 +21,8 @@
     "typeorm": "typeorm-ts-node-commonjs --dataSource \"./src/database/migrations.data-source.ts\"",
     "migration:create": "typeorm-ts-node-commonjs migration:create \"./src/database/migrations/%npm_config_migration_name%\"",
     "migration:run": "yarn typeorm migration:run",
-    "migration:revert": "yarn typeorm migration:revert"
+    "migration:revert": "yarn typeorm migration:revert",
+    "migration:show": "yarn typeorm migration:show"
   },
   "dependencies": {
     "@nestjs/common": "^10.1.0",

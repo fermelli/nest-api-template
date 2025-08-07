@@ -69,6 +69,9 @@ $ yarn migration:run
 
 # Revert the migrations
 $ yarn migration:revert
+
+# Show the status of migrations
+$ yarn migration:show
 ```
 
 ## Info
