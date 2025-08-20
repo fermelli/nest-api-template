@@ -1,3 +1,10 @@
+export interface BasicJwtPayload {
+  sub: number;
+  iss: string;
+  iat?: number;
+  exp?: number;
+}
+
 export interface UserJwtPayload {
   id: number;
   name: string;
@@ -6,7 +13,6 @@ export interface UserJwtPayload {
   updatedAt: Date;
 }
 
-export interface JwtPayload extends UserJwtPayload {
-  sub: number;
-  iss: string;
-}
+export interface AccesTokenJwtPayload extends BasicJwtPayload, UserJwtPayload {}
+
+export type RefreshTokenJwtPayload = BasicJwtPayload;

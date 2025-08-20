@@ -6,9 +6,10 @@ import { User } from './entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { Role } from 'src/roles/entities/role.entity';
 import { Permission } from 'src/permissions/entities/permission.entity';
+import { RefreshToken } from 'src/auth/entities/refresh-token.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Role, Permission])],
+  imports: [TypeOrmModule.forFeature([User, Role, Permission, RefreshToken])],
   providers: [UsersService, ConfigService],
   controllers: [UsersController],
   exports: [UsersService],

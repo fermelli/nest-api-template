@@ -7,12 +7,14 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Role } from 'src/roles/entities/role.entity';
 import { Permission } from 'src/permissions/entities/permission.entity';
+import { RefreshToken } from 'src/auth/entities/refresh-token.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -86,6 +88,9 @@ export class User {
     inverseJoinColumn: { name: 'permission_id' },
   })
   permissions: Permission[];
+
+  @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user)
+  refreshTokens: RefreshToken[];
 
   emailToLowerCase() {
     this.email = this.email.toLowerCase();

@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { Public } from './decorators/public.decorator';
@@ -7,6 +14,8 @@ import { User } from 'src/users/entities/user.entity';
 import { GetUser } from './decorators/get-user.decorator';
 import { Permission } from 'src/auth/decorators/permission.decorator';
 import { SlugedNamePermission } from 'src/auth/enums/sluged-name-permission.enum';
+import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
+import { Request as ExpressRequest } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -28,5 +37,15 @@ export class AuthController {
   @Permission(SlugedNamePermission.GET_DATA_ABOUT_ME)
   me(@GetUser() user: User) {
     return this.authService.me(user);
+  }
+
+  @UseGuards(JwtRefreshAuthGuard)
+  @Public()
+  @Post('refresh-tokens')
+  refreshTokens(@GetUser() user: User, @Request() req: ExpressRequest) {
+    const [type, token] = req.headers.authorization?.split(' ') ?? [];
+    const currentRefreshToken = type === 'Bearer' ? token : undefined;
+
+    return this.authService.refreshTokens(user, currentRefreshToken);
   }
 }

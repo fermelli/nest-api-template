@@ -100,6 +100,15 @@ export class EnvironmentVariables {
 
   @IsNotEmpty()
   @IsString()
+  @MinLength(32)
+  JWT_REFRESH_SECRET: string;
+
+  @IsNotEmpty()
+  @IsString()
+  JWT_REFRESH_EXPIRES_IN: string;
+
+  @IsNotEmpty()
+  @IsString()
   @IsStrongPassword({
     minLength: 8,
     minLowercase: 1,

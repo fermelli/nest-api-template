@@ -318,6 +318,31 @@
 				},
 				{
 					"name": "SignIn",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const main = () => {\r",
+									"    const response = pm.response;\r",
+									"\r",
+									"    if(response.code === 201) {\r",
+									"        const body = response.json();\r",
+									"        const accessToken = body.data.accessToken;\r",
+									"        const refreshToken = body.data.refreshToken;\r",
+									"\r",
+									"        pm.collectionVariables.set(\"accessToken\", accessToken);\r",
+									"        pm.collectionVariables.set(\"refreshToken\", refreshToken);\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"main();"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -356,6 +381,34 @@
 							"path": [
 								"auth",
 								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refreshTokens",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refreshToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url_api}}/auth/refresh-tokens",
+							"host": [
+								"{{url_api}}"
+							],
+							"path": [
+								"auth",
+								"refresh-tokens"
 							]
 						}
 					},
@@ -620,7 +673,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "{{token}}",
+				"value": "{{accessToken}}",
 				"type": "string"
 			}
 		]
@@ -661,21 +714,23 @@
 					"\t\t(err, res) => {",
 					"\t\t\tconsole.log({ nameRequest: 'meRequest', res, err });",
 					"",
-					"\t\t\tif (res.code === 404) {",
+					"\t\t\tif (res?.code === 404) {",
 					"\t\t\t\tconsole.log(\"Usuario no existe\");",
-					"\t\t\t} else if (res.code === 401) {",
+					"\t\t\t} else if (res?.code === 401) {",
 					"\t\t\t\tconsole.log(\"Usuario sin autorizacion\");",
 					"\t\t\t} else {",
-					"\t\t\t\tconst token = res.json().data.accessToken;",
+					"\t\t\t\tconst accessToken = res?.json().data.accessToken;",
+					"                const refreshToken = res?.json().data.refreshToken;",
 					"",
-					"\t\t\t\tpm.collectionVariables.set(\"token\", token);",
+					"\t\t\t\tpm.collectionVariables.set(\"accessToken\", accessToken);",
+					"                pm.collectionVariables.set(\"refreshToken\", refreshToken);",
 					"\t\t\t}",
 					"\t\t}",
 					"\t);",
 					"};",
 					"",
 					"const meRequest = () => {",
-					"\tconst token = pm.collectionVariables.get(\"token\");",
+					"\tconst accessToken = pm.collectionVariables.get(\"accessToken\");",
 					"",
 					"\tpm.sendRequest(",
 					"\t\t{",
@@ -684,7 +739,7 @@
 					"\t\t\theader: {",
 					"\t\t\t\t\"Content-Type\": \"application/json\",",
 					"\t\t\t\t\"X-Requested-With\": \"XMLHttpRequest\",",
-					"\t\t\t\tAuthorization: `Bearer ${token}`,",
+					"\t\t\t\tAuthorization: `Bearer ${accessToken}`,",
 					"\t\t\t},",
 					"\t\t},",
 					"\t\t(err, res) => {",
@@ -723,22 +778,23 @@
 	"variable": [
 		{
 			"key": "url_api",
-			"value": "http://localhost:3000/api",
-			"type": "string"
+			"value": "http://localhost:3000/api"
 		},
 		{
 			"key": "email",
-			"value": "super-admin@nest-api-template.com",
-			"type": "string"
+			"value": "super-admin@nest-api-template.com"
 		},
 		{
 			"key": "password",
-			"value": "NestAPISuperAdmin@2023",
-			"type": "string"
+			"value": "NestAPISuperAdmin@2023"
 		},
 		{
-			"key": "token",
+			"key": "accessToken",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlN1cGVyIEFkbWluIiwiZW1haWwiOiJzdXBlci1hZG1pbkBuZXN0LWFwaS10ZW1wbGF0ZS5jb20iLCJjcmVhdGVkQXQiOiIyMDI0LTA0LTMwVDAzOjQwOjQ1LjcxMloiLCJ1cGRhdGVkQXQiOiIyMDI0LTA2LTA2VDAxOjIzOjA1LjAwMFoiLCJpYXQiOjE3MTc2MzczNjUsImV4cCI6MTcxNzY1MTc2NX0.1puL8WjlOhXQ446evP6nynoVed8UZAI8abaM75mrf2E"
+		},
+		{
+			"key": "refreshToken",
+			"value": ""
 		}
 	]
 }

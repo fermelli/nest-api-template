@@ -14,10 +14,13 @@ import { UsersService } from 'src/users/users.service';
 import { Role } from 'src/roles/entities/role.entity';
 import { Permission } from 'src/permissions/entities/permission.entity';
 import { PermissionGuard } from './guards/permission.guard';
+import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
+import { RefreshTokensService } from './refresh-tokens.service';
+import { RefreshToken } from './entities/refresh-token.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Role, Permission]),
+    TypeOrmModule.forFeature([User, Role, Permission, RefreshToken]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -34,7 +37,9 @@ import { PermissionGuard } from './guards/permission.guard';
     },
     ConfigService,
     JwtStrategy,
+    JwtRefreshStrategy,
     UsersService,
+    RefreshTokensService,
     {
       provide: APP_GUARD,
       useClass: PermissionGuard,

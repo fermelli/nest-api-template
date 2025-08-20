@@ -1,14 +1,17 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { User } from 'src/users/entities/user.entity';
-import { AccesTokenJwtPayload } from '../interfaces/jwt-payload.interface';
-import { Equal, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Strategy, ExtractJwt } from 'passport-jwt';
+import { User } from 'src/users/entities/user.entity';
+import { Repository, Equal } from 'typeorm';
+import { BasicJwtPayload } from '../interfaces/jwt-payload.interface';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class JwtRefreshStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-refresh',
+) {
   constructor(
     readonly configService: ConfigService,
 
@@ -18,20 +21,19 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>('JWT_SECRET'),
+      secretOrKey: configService.get<string>('JWT_REFRESH_SECRET'),
     });
   }
 
-  async validate(jwtPayload: AccesTokenJwtPayload): Promise<User> {
-    const { id } = jwtPayload;
-
+  async validate(basicJwtPayload: BasicJwtPayload): Promise<User> {
+    const { sub: userId } = basicJwtPayload;
     const user = await this.userRepository.findOne({
-      where: { id: Equal(id) },
+      where: { id: Equal(userId) },
       withDeleted: true,
     });
 
     if (!user) {
-      throw new UnauthorizedException('Access token is invalid');
+      throw new UnauthorizedException('Refresh token is invalid');
     }
 
     if (user.deletedAt) {
