@@ -162,6 +162,10 @@ export class EnvironmentVariables {
   @IsString()
   CORS_ALLOWED_HEADERS: string;
 
+  @IsNotEmpty()
+  @IsString()
+  CORS_EXPOSED_HEADERS: string;
+
   @Type(() => Number)
   @IsNotEmpty()
   @IsInt()

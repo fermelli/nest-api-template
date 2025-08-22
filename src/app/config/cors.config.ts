@@ -14,6 +14,7 @@ export default (configService: ConfigService): CorsOptions => {
     ),
     credentials: configService.get<boolean>('CORS_CREDENTIALS'),
     allowedHeaders: configService.get<string>('CORS_ALLOWED_HEADERS'),
+    exposedHeaders: configService.get<string>('CORS_EXPOSED_HEADERS'),
     maxAge: configService.get<number>('CORS_MAX_AGE'),
   };
 };
